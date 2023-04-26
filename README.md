@@ -1,3 +1,57 @@
+
+// Add this to your GlobalUsings.cs
+global using System.Xml.Linq;
+
+namespace RiskPortal.Library
+{
+    public class SecurityServer
+    {
+        // ... existing code ...
+
+        public async Task<XDocument> GetPermissionedDataAsync(string userName)
+        {
+            string request = $@"<Requests{(_environmentSwitch is {{Length: > 0}} ? $" environment=""{_environmentSwitch}""" : "")}><GetPermissionedData application_id=""{_applicationId}"" login=""{userName}"" item_id="""" deep.";
+
+            XDocument requestDoc = XDocument.Parse(request);
+            return await PostRequestAsync(requestDoc);
+        }
+
+        public async Task<XDocument> GetPermissionedDataAsync(string userName, string itemId)
+        {
+            string request = $@"<Requests{(_environmentSwitch is {{Length: > 0}} ? $" environment=""{_environmentSwitch}""" : "")}><GetPermissionedData application_id=""{_applicationId}"" login=""{userName}"" item_id=""{itemId}"" deep.";
+
+            XDocument requestDoc = XDocument.Parse(request);
+            return await PostRequestAsync(requestDoc);
+        }
+
+        private async Task<XDocument> PostRequestAsync(XDocument xmlRequest)
+        {
+            using StringContent content = new StringContent(xmlRequest.ToString(), Encoding.UTF8, "text/xml");
+            using HttpResponseMessage response = await _httpClient.PostAsync(_connection, content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ApplicationException($"Error {(int)response.StatusCode} with Security Server '{_connection}'.");
+            }
+
+            XDocument responseDoc;
+            try
+            {
+                responseDoc = XDocument.Load(await response.Content.ReadAsStreamAsync());
+            }
+            catch (XmlException e)
+            {
+                throw new ApplicationException($"Security Server '{_connection}' has returned invalid XML: {e.Message}", e);
+            }
+
+            return responseDoc;
+        }
+    }
+}
+
+
+
+
 using YourNamespace.Extensions;
 
 // ...
