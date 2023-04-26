@@ -1,3 +1,14 @@
+namespace RiskPortal.Library
+{
+    public interface ISecurityServer
+    {
+        Task<XDocument> GetPermissionedDataAsync(string userName);
+        Task<XDocument> GetPermissionedDataAsync(string userName, string itemId);
+    }
+}
+
+
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
