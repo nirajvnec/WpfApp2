@@ -1,10 +1,10 @@
-public class CsvRow
-{
-    public string Key { get; set; }
-    public string Value1 { get; set; }
-    public string Value2 { get; set; }
-}
 
+public record CsvRow
+{
+    public string Key { get; init; }
+    public string Value1 { get; init; }
+    public string Value2 { get; init; }
+}
 
 
 
