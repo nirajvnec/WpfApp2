@@ -1,3 +1,30 @@
+
+namespace RiskPortal.Library
+{
+    public class SecurityServer : ISecurityServer
+    {
+        // ... existing code ...
+
+        public async Task<XDocument> GetPermissionedDataAsync(string userName)
+        {
+            // ... existing code ...
+        }
+
+        public async Task<XDocument> GetPermissionedDataAsync(string userName, string itemId)
+        {
+            // ... existing code ...
+        }
+
+        private async Task<XDocument> PostRequestAsync(XDocument xmlRequest)
+        {
+            // ... existing code ...
+        }
+    }
+}
+
+
+
+
 namespace RiskPortal.Library
 {
     public interface ISecurityServer
