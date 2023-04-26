@@ -1,3 +1,27 @@
+using Microsoft.Extensions.DependencyInjection;
+using RiskPortal.Library;
+using System;
+
+namespace YourNamespace.Extensions
+{
+    public static class SecurityServerExtensions
+    {
+        public static IServiceCollection AddSecurityServer(this IServiceCollection services, string connectionString, int applicationId, string environmentSwitch)
+        {
+            services.AddSingleton<ISecurityServer>(sp =>
+            {
+                IHttpClientFactory httpClientFactory = sp.GetRequiredService<IHttpClientFactory>();
+                return new SecurityServer(httpClientFactory, connectionString, applicationId, environmentSwitch);
+            });
+
+            return services;
+        }
+    }
+}
+
+
+
+
 
 namespace RiskPortal.Library
 {
