@@ -1,3 +1,19 @@
+using YourNamespace.Extensions;
+
+// ...
+string connectionString = builder.Configuration.GetConnectionString("SecurityServer");
+int applicationId = int.Parse(builder.Configuration["SecurityServer:ApplicationId"]);
+string environmentSwitch = builder.Configuration["SecurityServer:EnvironmentSwitch"];
+
+builder.Services
+    .AddSecurityServer(connectionString, applicationId, environmentSwitch)
+    .AddHttpClient();
+
+// ...
+
+
+
+
 using Microsoft.Extensions.DependencyInjection;
 using RiskPortal.Library;
 using System;
