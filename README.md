@@ -9,6 +9,40 @@ namespace RiskPortal.Library
 
         public async Task<XDocument> GetPermissionedDataAsync(string userName)
         {
+            string request = $@"<Requests{(!string.IsNullOrEmpty(_environmentSwitch) ? $@" environment=""{_environmentSwitch}""" : "")}><GetPermissionedData application_id=""{_applicationId}"" login=""{userName}"" item_id="""" deep="" />";
+            
+            XDocument requestDoc = XDocument.Parse(request);
+            return await PostRequestAsync(requestDoc);
+        }
+
+        public async Task<XDocument> GetPermissionedDataAsync(string userName, string itemId)
+        {
+            string request = $@"<Requests{(!string.IsNullOrEmpty(_environmentSwitch) ? $@" environment=""{_environmentSwitch}""" : "")}><GetPermissionedData application_id=""{_applicationId}"" login=""{userName}"" item_id=""{itemId}"" deep="" />";
+            
+            XDocument requestDoc = XDocument.Parse(request);
+            return await PostRequestAsync(requestDoc);
+        }
+
+        // ... existing code ...
+    }
+}
+
+
+
+
+
+
+// Add this to your GlobalUsings.cs
+global using System.Xml.Linq;
+
+namespace RiskPortal.Library
+{
+    public class SecurityServer
+    {
+        // ... existing code ...
+
+        public async Task<XDocument> GetPermissionedDataAsync(string userName)
+        {
             string request = $@"<Requests{(_environmentSwitch.Length > 0 ? $" environment=""{_environmentSwitch}""" : "")}><GetPermissionedData application_id=""{_applicationId}"" login=""{userName}"" item_id="""" deep.";
 
             XDocument requestDoc = XDocument.Parse(request);
