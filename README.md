@@ -1,3 +1,58 @@
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+
+@Component({
+  selector: 'app-dropdowns',
+  templateUrl: './dropdowns.component.html',
+  styleUrls: ['./dropdowns.component.css']
+})
+export class DropdownsComponent implements OnInit {
+  @Input() options: any[] = ['Option 1', 'Option 2', 'Option 3'];
+  @Output() selectionChanged = new EventEmitter<any>();
+
+  constructor() { }
+
+  ngOnInit(): void { }
+
+  onSelectionChange(event: any): void {
+    this.selectionChanged.emit(event.value);
+  }
+}
+
+
+
+<mat-select (selectionChange)="onSelectionChange($event)">
+  <mat-option *ngFor="let option of options" [value]="option">
+    {{ option }}
+  </mat-option>
+</mat-select>
+
+
+<app-dropdowns [options]="myOptions" (selectionChanged)="onDropdownSelectionChanged($event)"></app-dropdowns>
+
+
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-search-run-status',
+  templateUrl: './search-run-status.component.html',
+  styleUrls: ['./search-run-status.component.css']
+})
+export class SearchRunStatusComponent implements OnInit {
+  myOptions: any[] = ['Option A', 'Option B', 'Option C'];
+
+  constructor() { }
+
+  ngOnInit(): void { }
+
+  onDropdownSelectionChanged(selectedOption: any): void {
+    console.log('Selected option:', selectedOption);
+    // Handle the selection change event here
+  }
+}
+
+
+
+
 // Add this to your GlobalUsings.cs
 global using System.Xml.Linq;
 
