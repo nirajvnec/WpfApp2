@@ -1,3 +1,49 @@
+<div *ngIf="isVisible">
+  <select class="form-select" (change)="onSelectionChange($event)">
+    <option value=""></option>
+    <option *ngFor="let option of options" [value]="option.value" [selected]="option.value === selectedValue">
+      {{ option.displayText }}
+    </option>
+  </select>
+</div>
+
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+
+@Component({
+  selector: 'app-dropdowns',
+  templateUrl: './dropdowns.component.html',
+  styleUrls: ['./dropdowns.component.css']
+})
+export class DropdownsComponent {
+  @Input() options: { displayText: string; value: string }[] = [];
+  @Input() label: string = 'Queues:';
+  @Input() selectedValue: string;
+  @Input() isVisible: boolean = false;
+  @Output() selectionChanged = new EventEmitter<any>();
+
+  constructor() { }
+
+  onSelectionChange(event: any): void {
+    this.selectionChanged.emit(event.target.value);
+  }
+}
+
+<app-dropdowns
+  [options]="availableReportQueueOptions"
+  [selectedValue]="defaultvalueforPriority"
+  (change)="onDropdownSelectionChanged($event)"
+  [isVisible]="showDropdowns"
+></app-dropdowns>
+
+<app-dropdowns
+  [label]="labelForPriorities"
+  [selectedValue]="defaultValueforQueue"
+  [options]="priorityOptions"
+  (change)="onDropdownSelectionChanged($event)"
+  [isVisible]="showDropdowns"
+></app-dropdowns>
+
+
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
