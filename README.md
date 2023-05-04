@@ -1,3 +1,27 @@
+import { finalize } from 'rxjs/operators';
+
+
+getReportQueues() {
+  this.mnetReportControlService.getReportQueues()
+    .pipe(
+      finalize(() => {
+        // This code will run when the observable completes
+        if (this.availableReportQueueOptions.length > 0) {
+          this.defaultValueforQueue = this.availableReportQueueOptions[0].displayText;
+        } else {
+          // Handle the case when availableReportQueueOptions is empty, if necessary
+        }
+      })
+    )
+    .subscribe(result => {
+      this.availableReportQueueOptions = result.map((item: string) => {
+        return { displayText: item, value: item };
+      });
+    });
+}
+
+
+
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
