@@ -1,3 +1,39 @@
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+
+@Component({
+  selector: 'app-dropdowns',
+  templateUrl: './dropdowns.component.html',
+  styleUrls: ['./dropdowns.component.css']
+})
+export class DropdownsComponent implements OnInit {
+  @Input() options: { displayText: string; value: string }[] = [];
+  @Input() label: string = 'Queues:';
+  @Input() selectedOption: string;
+  @Output() selectionChanged = new EventEmitter<any>();
+
+  constructor() { }
+
+  ngOnInit(): void {
+    if (this.options.length > 0 && !this.selectedOption) {
+      this.selectedOption = this.options[0].value;
+    }
+  }
+
+  onSelectionChange(event: any): void {
+    this.selectionChanged.emit(event.target.value);
+  }
+}
+
+
+<select class="form-select" (change)="onSelectionChange($event)">
+  <option value=""></option>
+  <option *ngFor="let option of options" [value]="option.value" [selected]="option.value === selectedOption">
+    {{ option.displayText }}
+  </option>
+</select>
+
+
+
 import { finalize } from 'rxjs/operators';
 
 
