@@ -1,3 +1,60 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <label>{{ labelForQueues }}:</label>
+      <app-dropdowns
+        [isVisible]="showDropdowns"
+        [options]="availableReportQueueOptions"
+        [selectedValue]="defaultValueforQueue"
+        (change)="onDropdownSelectionChanged($event)"
+      ></app-dropdowns>
+    </div>
+    <div class="col">
+      <label>{{ labelForPriorities }}:</label>
+      <app-dropdowns
+        [isVisible]="showDropdowns"
+        [selectedValue]="defaultvalueforPriority"
+        [options]="priorityOptions"
+        (change)="onDropdownSelectionChanged($event)"
+      ></app-dropdowns>
+    </div>
+    <div class="col d-flex justify-content-end">
+      <div class="btn-group">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="form.reset(); inValidReportName = false"
+        >
+          Clear
+        </button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="deleteSearchCache()"
+        >
+          Delete Saved Search
+        </button>
+      </div>
+      <button
+        type="button"
+        class="btn btn-primary ms-3"
+        (click)="toggleDropdowns()"
+        [disabled]="loadSpinnerService.loading$ | async"
+      >
+        <span
+          *ngIf="loadSpinnerService.loading$ | async"
+          class="spinner-border spinner-border-sm me-2"
+          role="status"
+          aria-hidden="true"
+        ></span>
+        Search
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
 <div *ngIf="isVisible">
   <select class="form-select" (change)="onSelectionChange($event)">
     <option value=""></option>
