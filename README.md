@@ -1,3 +1,28 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { RunStoredReports } from './run-stored-reports.model';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ReportRunService {
+  private MARS_URL = 'https://your-backend-api-url.com/api/';
+
+  constructor(private http: HttpClient) {}
+
+  runStoredReports(runStoredReports: RunStoredReports): Observable<void> {
+    const url = this.MARS_URL + 'ReportRun/RunStoredReports';
+    return this.http
+      .post<void>(url, runStoredReports)
+      .pipe(catchError((error: HttpErrorResponse) => throwError(error)));
+  }
+
+  // Add other methods if needed
+}
+
+
 public async Task<XPathDocument> PostRequestLiteAsync()
 {
     return await Task.Run(() => PostRequestLite());
