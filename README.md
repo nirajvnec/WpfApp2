@@ -1,3 +1,10 @@
+public async Task<XPathDocument> PostRequestLiteAsync()
+{
+    return await Task.Run(() => PostRequestLite());
+}
+
+
+
 // Add global using directives at the top of your file
 global using System;
 global using System.Net.Http;
