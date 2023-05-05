@@ -1,3 +1,100 @@
+// Add global using directives at the top of your file
+global using System;
+global using System.Net.Http;
+global using System.Text;
+global using System.Threading.Tasks;
+global using System.Xml;
+global using System.Xml.XPath;
+
+namespace YourNamespace
+{
+    public record XmlRequestItem(string Command, string ClientSystemName)
+    {
+        public Dictionary<string, string> AttributeValueCollection { get; } = new();
+    }
+
+    public record XmlRequest
+    {
+        public List<XmlRequestItem> RequestItems { get; } = new();
+
+        public void AddRequestNode(XmlRequestItem requestItem)
+        {
+            RequestItems.Add(requestItem);
+        }
+    }
+
+    public class ReportRunner
+    {
+        private readonly string _connectionString;
+        private readonly string _userName;
+        private readonly string _clientSystemName;
+
+        public ReportRunner(string connectionString, string userName, string clientSystemName)
+        {
+            _connectionString = connectionString;
+            _userName = userName;
+            _clientSystemName = clientSystemName;
+        }
+
+        public async Task<XPathDocument> RunStoredReportAsync(string[] reportNames, DateTime cobDate, string queue, int priority, bool synchronous)
+        {
+            var request = new XmlRequest();
+            string cobDateValue = HtmlUtility.StandardCobDate(cobDate);
+
+            foreach (string name in reportNames)
+            {
+                var requestItem = new XmlRequestItem("RunStoredReport", _clientSystemName)
+                {
+                    AttributeValueCollection =
+                    {
+                        ["name"] = name,
+                        ["date"] = cobDateValue,
+                        ["mode"] = synchronous ? "synchronous" : "asynchronous",
+                        ["queue_name"] = queue,
+                        ["priority"] = priority.ToString()
+                    }
+                };
+
+                request.AddRequestNode(requestItem);
+            }
+
+            return await PostRequestAsync(request);
+        }
+
+        private async Task<XPathDocument> PostRequestAsync(XmlRequest request)
+        {
+            using var httpClient = new HttpClient();
+            // Set up request headers or other configurations here, if needed.
+
+            // Serialize the XmlRequest object into an XML string
+            string requestBody = SerializeRequestToXml(request);
+
+            var content = new StringContent(requestBody, Encoding.UTF8, "application/xml");
+            var response = await httpClient.PostAsync(_connectionString, content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                // Handle the error response here, if needed.
+                throw new HttpRequestException($"Request failed with status code: {response.StatusCode}");
+            }
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return new XPathDocument(new StringReader(responseContent));
+        }
+
+        private string SerializeRequestToXml(XmlRequest request)
+        {
+            // Implement the serialization logic here based on your XmlRequest object structure.
+            // You can use XmlDocument, XDocument, or other XML libraries to create an XML string representation of the request object.
+            throw new NotImplementedException();
+        }
+    }
+}
+
+
+
+
+
 <div class="container">
   <div class="row">
     <div class="col">
