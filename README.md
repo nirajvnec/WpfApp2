@@ -1,3 +1,22 @@
+runStoredReport(): void {
+  const runStoredReportsData: RunStoredReports = {
+    reportNames: ['Report1', 'Report2'],
+    queueName: 'Queue1',
+    priority: 1,
+    cob: '2023-05-05',
+  };
+
+  this.reportRunService.runStoredReports(runStoredReportsData).subscribe(
+    () => {
+      console.log('Stored reports have been run successfully.');
+    },
+    (error) => {
+      console.error('An error occurred while running the stored reports:', error);
+    }
+  );
+}
+
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
