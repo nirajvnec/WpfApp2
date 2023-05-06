@@ -1,3 +1,54 @@
+import { Component, OnInit } from '@angular/core';
+import { MnetReportControlService } from 'src/app/services/mnet-report-control.service';
+import { StaticData } from 'src/app/static-data';
+import { ReportdefRSPermGroupModel } from 'src/app/models/reportdef-rs-perm-group.model';
+import { tap } from 'rxjs/operators';
+
+@Component({
+  selector: 'app-example',
+  templateUrl: './example.component.html',
+  styleUrls: ['./example.component.css']
+})
+export class ExampleComponent implements OnInit {
+  groups: ReportdefRSPermGroupModel[];
+
+  constructor(private mnetReportControlService: MnetReportControlService) { }
+
+  ngOnInit(): void {
+    this.initialiseGroups();
+  }
+
+  initialiseGroups(): void {
+    try {
+      let pagePermissionType = StaticData.CONSTANTS.ConstantData.PermissionGroupType[0].ReportDefinition;
+      this.mnetReportControlService.getRSPermissionGroup(pagePermissionType).pipe(
+        tap((result: ReportdefRSPermGroupModel[]) => {
+          this.groups = result;
+          console.log(result);
+          console.log('groups added');
+          // Perform your task here
+          this.loadGrid();
+        })
+      ).subscribe(
+        (result: ReportdefRSPermGroupModel[]) => {
+          // This will still be executed, but the task has already been performed in the tap operator
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  loadGrid(): void {
+    // Your loadGrid function logic
+  }
+}
+
+
+
 initialiseGroups(): void {
   try {
     let pagePermissionType = StaticData.CONSTANTS.ConstantData.PermissionGroupType[0].ReportDefinition;
