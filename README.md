@@ -1,3 +1,22 @@
+initialiseGroups(): void {
+  try {
+    let pagePermissionType = StaticData.CONSTANTS.ConstantData.PermissionGroupType[0].ReportDefinition;
+    this.mnetReportControlService.getRSPermissionGroup(pagePermissionType).subscribe(
+      (result: ReportdefRSPermGroupModel[]) => {
+        this.groups = result;
+        console.log(result);
+        console.log('groups added');
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
 import { Component } from '@angular/core';
 
 @Component({
