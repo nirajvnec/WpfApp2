@@ -1,5 +1,42 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+
+@Component({
+  selector: 'app-success-page',
+  templateUrl: './success-page.component.html',
+  styleUrls: ['./success-page.component.css']
+})
+export class SuccessPageComponent implements OnInit {
+  reportNames: string[];
+  cob: string;
+
+  constructor(private route: ActivatedRoute, private location: Location) { }
+
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.reportNames = params['reportNames'].split(',');
+      this.cob = params['cob'];
+    });
+  }
+
+  goBack(): void {
+    this.location.back();
+  }
+}
+
+
+<div>
+  <h1>Successfully Triggered Reports for {{ cob }}</h1>
+  <ul>
+    <li *ngFor="let reportName of reportNames">{{ reportName }}</li>
+  </ul>
+  <button (click)="goBack()">Back</button>
+</div>
+
+
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-success-page',
