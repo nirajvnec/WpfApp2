@@ -1,3 +1,38 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+import { StateService } from 'src/app/services/state.service';
+
+@Component({
+  selector: 'app-success-page',
+  templateUrl: './success-page.component.html',
+  styleUrls: ['./success-page.component.css']
+})
+export class SuccessPageComponent implements OnInit {
+  reportNames: string[];
+  cob: string;
+
+  constructor(
+    private route: ActivatedRoute,
+    private location: Location,
+    private stateService: StateService
+  ) { }
+
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.reportNames = params['reportNames'].split(',');
+      this.cob = params['cob'];
+    });
+  }
+
+  goBack(): void {
+    this.stateService.setBackClicked(true);
+    this.location.back();
+  }
+}
+
+
+
 <div class="container">
   <div class="row">
     <div class="col-md-3">
