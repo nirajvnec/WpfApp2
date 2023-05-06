@@ -1,3 +1,27 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+@Component({
+  selector: 'app-success-page',
+  templateUrl: './success-page.component.html',
+  styleUrls: ['./success-page.component.css']
+})
+export class SuccessPageComponent implements OnInit {
+  reportNames: string[];
+  cob: string;
+
+  constructor(private route: ActivatedRoute) { }
+
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.reportNames = params['reportNames'].split(',');
+      this.cob = params['cob'];
+    });
+  }
+}
+
+
+
 import { SuccessPageComponent } from './success-page/success-page.component';
 const routes: Routes = [
   // ...existing routes...
