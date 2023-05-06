@@ -1,5 +1,34 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-success-page',
+  templateUrl: './success-page.component.html',
+  styleUrls: ['./success-page.component.css']
+})
+export class SuccessPageComponent implements OnInit {
+  reportNames: string[];
+  cob: string;
+
+  constructor(private route: ActivatedRoute, private router: Router) { }
+
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.reportNames = params['reportNames'].split(',');
+      this.cob = params['cob'];
+    });
+  }
+
+  goBack(): void {
+    this.router.navigate(['/report-control/run-status/list']);
+  }
+}
+
+
+
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 @Component({
