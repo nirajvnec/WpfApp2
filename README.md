@@ -1,3 +1,49 @@
+<div>
+  <h1>Successfully Triggered Reports for COB: {{cob}}</h1>
+  <ul>
+    <li *ngFor="let reportName of reportNames">{{ reportName }}</li>
+  </ul>
+</div>
+
+
+import { ActivatedRoute } from '@angular/router';
+
+export class SuccessPageComponent implements OnInit {
+  reportNames: string[];
+  cob: string;
+
+  constructor(private route: ActivatedRoute) { }
+
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.reportNames = params['reportNames'].split(',');
+      this.cob = params['cob'];
+    });
+  }
+}
+
+import { Router } from '@angular/router';
+
+constructor(private router: Router, /* other dependencies */) { }
+
+runStoredReport(): void {
+  // ...existing code...
+  this.reportRunService.runStoredReports(runStoredReportsData).subscribe(
+    () => {
+      console.log('Stored reports have been run successfully.');
+      this.router.navigate(['/success'], { queryParams: { 
+        reportNames: runStoredReportsData.reportNames.join(','), 
+        cob: runStoredReportsData.cob 
+      } });
+    },
+    (error) => {
+      console.error('An error occurred while running the stored reports:', error);
+    }
+  );
+}
+
+
+
 using System.Globalization;
 
 public IActionResult RunReports(RunStoredReports runStoredReports)
