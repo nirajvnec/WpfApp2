@@ -1,3 +1,7 @@
+ng generate component success-page --module=app --route=success
+
+
+
 <div>
   <h1>Successfully Triggered Reports for COB: {{cob}}</h1>
   <ul>
