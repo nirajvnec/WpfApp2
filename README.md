@@ -1,3 +1,64 @@
+import { Component, OnInit } from '@angular/core';
+import { StateService } from 'src/app/services/state.service';
+
+@Component({
+  selector: 'app-run-status-list',
+  templateUrl: './run-status-list.component.html',
+  styleUrls: ['./run-status-list.component.css']
+})
+export class RunStatusListComponent implements OnInit {
+  // Variables for selected dropdown values and grid visibility
+  statusDropdownValue: any;
+  reportNameTextBoxValue: string;
+  queueDropdownValue: any;
+  priorityDropdownValue: any;
+  gridVisible: boolean;
+
+  constructor(private stateService: StateService) { }
+
+  ngOnInit(): void {
+    // If the back button was clicked, retrieve the stored state from the StateService
+    if (this.stateService.getBackClicked()) {
+      this.statusDropdownValue = this.stateService.getStatusDropdownValue();
+      this.reportNameTextBoxValue = this.stateService.getReportNameTextBoxValue();
+      this.queueDropdownValue = this.stateService.getQueueDropdownValue();
+      this.priorityDropdownValue = this.stateService.getPriorityDropdownValue();
+      this.gridVisible = this.stateService.getGridVisible();
+
+      // Load the grid
+      this.loadGrid();
+    }
+  }
+
+  // Load the grid with data from the backend API
+  loadGrid(): void {
+    // Your existing logic for loading the grid with data from the backend API
+    // ...
+
+    // Set grid visibility to true
+    this.gridVisible = true;
+  }
+
+  // Handle the click event for the button that loads the grid
+  onButtonClick(): void {
+    // Load the grid and store the state
+    this.loadGrid();
+    this.storeState();
+  }
+
+  // Store the state of dropdown selected values and grid visibility
+  storeState(): void {
+    this.stateService.setStatusDropdownValue(this.statusDropdownValue);
+    this.stateService.setReportNameTextBoxValue(this.reportNameTextBoxValue);
+    this.stateService.setQueueDropdownValue(this.queueDropdownValue);
+    this.stateService.setPriorityDropdownValue(this.priorityDropdownValue);
+    this.stateService.setGridVisible(this.gridVisible);
+    this.stateService.setBackClicked(false);
+  }
+}
+
+
+
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
