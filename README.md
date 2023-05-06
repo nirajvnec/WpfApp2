@@ -1,3 +1,42 @@
+import { ActivatedRoute } from '@angular/router';
+
+export class SuccessPageComponent implements OnInit {
+  reportNames: string[];
+
+  constructor(private route: ActivatedRoute) { }
+
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.reportNames = params['reportNames'].split(',');
+    });
+  }
+}
+
+import { Router } from '@angular/router';
+
+constructor(private router: Router, /* other dependencies */) { }
+
+runStoredReport(): void {
+  // ...existing code...
+  this.reportRunService.runStoredReports(runStoredReportsData).subscribe(
+    () => {
+      console.log('Stored reports have been run successfully.');
+      this.router.navigate(['/success'], { queryParams: { reportNames: runStoredReportsData.reportNames.join(',') } });
+    },
+    (error) => {
+      console.error('An error occurred while running the stored reports:', error);
+    }
+  );
+}
+
+import { SuccessPageComponent } from './success-page/success-page.component';
+
+const routes: Routes = [
+  // ...your other routes...
+  { path: 'success', component: SuccessPageComponent },
+];
+
+
 this.selectedData.selected.map(item => item.reportName);
 
 runStoredReport(): void {
