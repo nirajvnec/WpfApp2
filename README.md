@@ -1,3 +1,5 @@
+this.selectedData.selected.map(item => item.reportName);
+
 runStoredReport(): void {
   const runStoredReportsData: RunStoredReports = {
     reportNames: ['Report1', 'Report2'],
