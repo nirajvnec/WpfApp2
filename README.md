@@ -1,3 +1,6 @@
+ng generate component success-page --module=report-control
+
+
 ng generate component success-page --module=app --route=success
 
 
