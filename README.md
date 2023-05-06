@@ -1,3 +1,43 @@
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class StateService {
+  private dropdownValues = new BehaviorSubject<any>(null);
+  private gridVisible = new BehaviorSubject<boolean>(false);
+  private backClicked = new BehaviorSubject<boolean>(false);
+
+  constructor() { }
+
+  setDropdownValues(values: any): void {
+    this.dropdownValues.next(values);
+  }
+
+  getDropdownValues(): BehaviorSubject<any> {
+    return this.dropdownValues;
+  }
+
+  setGridVisible(visible: boolean): void {
+    this.gridVisible.next(visible);
+  }
+
+  getGridVisible(): BehaviorSubject<boolean> {
+    return this.gridVisible;
+  }
+
+  setBackClicked(value: boolean): void {
+    this.backClicked.next(value);
+  }
+
+  getBackClicked(): BehaviorSubject<boolean> {
+    return this.backClicked;
+  }
+}
+
+
+
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
