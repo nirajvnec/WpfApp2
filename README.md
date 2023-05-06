@@ -1,3 +1,70 @@
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class StateService {
+  private statusDropdownValue = new BehaviorSubject<any>(null);
+  private reportNameTextBoxValue = new BehaviorSubject<string>(null);
+  private queueDropdownValue = new BehaviorSubject<any>(null);
+  private priorityDropdownValue = new BehaviorSubject<any>(null);
+  private gridVisible = new BehaviorSubject<boolean>(false);
+  private backClicked = new BehaviorSubject<boolean>(false);
+
+  constructor() {}
+
+  getStatusDropdownValue(): any {
+    return this.statusDropdownValue.value;
+  }
+
+  setStatusDropdownValue(value: any): void {
+    this.statusDropdownValue.next(value);
+  }
+
+  getReportNameTextBoxValue(): string {
+    return this.reportNameTextBoxValue.value;
+  }
+
+  setReportNameTextBoxValue(value: string): void {
+    this.reportNameTextBoxValue.next(value);
+  }
+
+  getQueueDropdownValue(): any {
+    return this.queueDropdownValue.value;
+  }
+
+  setQueueDropdownValue(value: any): void {
+    this.queueDropdownValue.next(value);
+  }
+
+  getPriorityDropdownValue(): any {
+    return this.priorityDropdownValue.value;
+  }
+
+  setPriorityDropdownValue(value: any): void {
+    this.priorityDropdownValue.next(value);
+  }
+
+  getGridVisible(): boolean {
+    return this.gridVisible.value;
+  }
+
+  setGridVisible(visible: boolean): void {
+    this.gridVisible.next(visible);
+  }
+
+  getBackClicked(): boolean {
+    return this.backClicked.value;
+  }
+
+  setBackClicked(clicked: boolean): void {
+    this.backClicked.next(clicked);
+  }
+}
+
+
+
 {
   "compilerOptions": {
     "moduleResolution": "node",
