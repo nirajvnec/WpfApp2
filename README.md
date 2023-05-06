@@ -1,3 +1,48 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <label for="statusDropdown">Status:</label>
+      <select id="statusDropdown" [(ngModel)]="statusDropdownValue">
+        <!-- Add your options here -->
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <label for="reportNameTextBox">Report Name (use for pattern search):</label>
+      <input type="text" id="reportNameTextBox" [(ngModel)]="reportNameTextBoxValue" />
+    </div>
+
+    <div class="col-md-3">
+      <label for="queueDropdown">Queue:</label>
+      <select id="queueDropdown" [(ngModel)]="queueDropdownValue">
+        <!-- Add your options here -->
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <label for="priorityDropdown">Priority:</label>
+      <select id="priorityDropdown" [(ngModel)]="priorityDropdownValue">
+        <!-- Add your options here -->
+      </select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <button (click)="onButtonClick()">Load Grid</button>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="gridVisible">
+    <div class="col-md-12">
+      <!-- Replace this placeholder with your actual grid component or implementation -->
+      <div class="grid-placeholder">Grid goes here</div>
+    </div>
+  </div>
+</div>
+
+
+
 import { Component, OnInit } from '@angular/core';
 import { StateService } from 'src/app/services/state.service';
 
