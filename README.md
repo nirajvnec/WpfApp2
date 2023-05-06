@@ -1,3 +1,16 @@
+using System.Globalization;
+
+public IActionResult RunReports(RunStoredReports runStoredReports)
+{
+    var dateFormat = "yyyyMMdd";
+    var dateTime = DateTime.ParseExact(runStoredReports.Cob, dateFormat, CultureInfo.InvariantCulture);
+
+    var result = InitializeReportRunRepo().RunStoredReport(runStoredReports.ReportNames, dateTime, runStoredReports.QueueName, runStoredReports.Priority, false);
+
+    return Ok();
+}
+
+
 import { ActivatedRoute } from '@angular/router';
 
 export class SuccessPageComponent implements OnInit {
