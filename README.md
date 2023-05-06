@@ -1,3 +1,14 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    // ...other settings
+  },
+  // ...other settings
+}
+
+
+
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
