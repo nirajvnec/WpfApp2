@@ -1,3 +1,21 @@
+import { Component } from '@angular/core';
+
+@Component({
+  // ... Component metadata ...
+})
+export class YourComponent {
+  constructor(private mnetReportControlService: YourService) {
+    (async () => {
+      await this.initialiseGroups();
+    })();
+  }
+
+  async initialiseGroups() {
+    // ... Your existing initialiseGroups method ...
+  }
+}
+
+
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
