@@ -1,3 +1,10 @@
+import { SuccessPageComponent } from './success-page/success-page.component';
+const routes: Routes = [
+  // ...existing routes...
+  { path: 'success', component: SuccessPageComponent },
+];
+
+
 ng generate component success-page --module=report-control
 
 
