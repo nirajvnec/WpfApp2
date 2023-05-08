@@ -1,3 +1,6 @@
+string newPath = $@"C:\Users\{Environment.UserName}\Downloads\certificate.p12";
+
+
 moving my leave up by two days
 // user-warning.component.ts
 import { Component, EventEmitter, Output } from '@angular/core';
