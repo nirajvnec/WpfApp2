@@ -1,3 +1,6 @@
+ng g c report-control/run-status/user-warning
+
+
 import { Observable } from 'rxjs';
 
 
