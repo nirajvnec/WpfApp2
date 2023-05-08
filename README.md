@@ -7,33 +7,16 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./user-warning.component.css']
 })
 export class UserWarningComponent {
-  @Output() dataEvent = new EventEmitter<string>();
+  @Output() dataGridReloadEvent = new EventEmitter<boolean>();
 
   onButtonClick() {
-    this.dataEvent.emit('Data from UserWarningComponent');
+    this.dataGridReloadEvent.emit(true);
   }
 }
-
-<!-- user-warning.component.html -->
-<button (click)="onButtonClick()">Click me to emit data</button>
 
 <!-- parent.component.html -->
-<app-user-warning (dataEvent)="onDataEvent($event)"></app-user-warning>
+<app-user-warning (dataGridReloadEvent)="onDataGridReloadEvent($event)"></app-user-warning>
 
-// parent.component.ts
-import { Component } from '@angular/core';
-
-@Component({
-  selector: 'app-parent',
-  templateUrl: './parent.component.html',
-  styleUrls: ['./parent.component.css']
-})
-export class ParentComponent {
-  onDataEvent(data: string) {
-    console.log('Data received from child component:', data);
-  }
-}
- 
   
 
 ng g c report-control/run-status/user-warning
