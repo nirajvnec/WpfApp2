@@ -1,3 +1,39 @@
+// In StateService
+getReportNamesObservable(): Observable<string> {
+  return this.reportNames.asObservable();
+}
+
+
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { StateService } from 'src/app/services/state.service';
+import { Subscription } from 'rxjs';
+
+@Component({
+  selector: 'app-success-page',
+  templateUrl: './success-page.component.html',
+  styleUrls: ['./success-page.component.css']
+})
+export class SuccessPageComponent implements OnInit, OnDestroy {
+  reportNames: string[];
+  private reportNamesSubscription: Subscription;
+
+  constructor(private stateService: StateService) {}
+
+  ngOnInit(): void {
+    this.reportNamesSubscription = this.stateService.getReportNamesObservable().subscribe((reportNames: string) => {
+      if (reportNames) {
+        this.reportNames = reportNames.split(',');
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    // Clean up the subscription to prevent memory leaks
+    this.reportNamesSubscription.unsubscribe();
+  }
+}
+
+
 import { Component, OnInit } from '@angular/core';
 import { MnetReportControlService } from 'src/app/services/mnet-report-control.service';
 import { StaticData } from 'src/app/static-data';
