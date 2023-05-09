@@ -1,5 +1,27 @@
 ng generate module label-maintenance-routing --flat --module=label-maintenance
 
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+
+import { AdminComponent } from './admin/admin.component';
+import { NonAdminComponent } from './non-admin/non-admin.component';
+
+const routes: Routes = [
+  { 
+    path: 'admin', 
+    component: AdminComponent 
+  },
+  { 
+    path: 'nonadmin', 
+    component: NonAdminComponent 
+  }
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class LabelMaintenanceRoutingModule { }
 
 
 
