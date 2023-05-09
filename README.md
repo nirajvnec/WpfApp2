@@ -1,3 +1,14 @@
+ng generate module label-maintenance-routing --flat --module=label-maintenance
+
+
+
+
+
+
+
+
+
+
 string newPath = $@"C:\Users\{Environment.UserName}\Downloads\certificate.p12";
 
 
