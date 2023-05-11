@@ -1,5 +1,29 @@
 using System.Xml.Linq;
-using System.Threading.Tasks;
+
+async Task<XDocument> AddReportToMarsNetGroupAsync(string reportname, string groupName = "MaRS Net Reports", string type = "")
+{
+    XmlRequest request = new();
+    XmlRequestItem requestItem = new("AddDataItemGroupItems");
+    XmlRequestItem requestItem2 = new("DataItemGroupMembership")
+    {
+        AttributeValueCollection = 
+        {
+            ["group"] = groupName,
+            ["item"] = reportname,
+            ["type"] = type
+        }
+    };
+
+    requestItem.AddChildRequestItem(requestItem2);
+    request.AddRequestNode(requestItem);
+
+    DBServerHttpXmlRequest requestDocument = new(request, m_ConnectionString, m_DefaultProxy, m_UserName);
+
+    string resultXml = await requestDocument.PostRequestAsync();
+    XDocument results = XDocument.Parse(resultXml);
+
+    return results;
+}
 
 async Task<XDocument> GetMarsReportRunStatusAsync(string[] reportNames, DateTime cobDate)
 {
