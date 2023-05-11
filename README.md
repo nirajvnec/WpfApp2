@@ -1,3 +1,26 @@
+using System.Xml.Linq;
+using System.Threading.Tasks;
+
+async Task<XDocument> GetNewReportsAsync(DateTime since)
+{
+    XmlRequest request = new();
+    XmlRequestItem requestItem = new("GetNewReports", m_ClientSystemName)
+    {
+        AttributeValueCollection = { ["since"] = since.ToString("yyyyMMdd HH:mm:ss") }
+    };
+    
+    request.AddRequestNode(requestItem);
+
+    DBServerHttpXmlRequest requestDocument = new(request, m_ConnectionString, "", m_UserName);
+    string resultXml = await requestDocument.PostRequestAsync();
+    XDocument results = XDocument.Parse(resultXml);
+
+    return results;
+}
+
+
+
+
 ng generate module label-maintenance-routing --flat --module=label-maintenance
 
 import { NgModule } from '@angular/core';
