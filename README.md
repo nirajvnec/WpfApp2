@@ -1,6 +1,32 @@
 using System.Xml.Linq;
 using System.Threading.Tasks;
 
+async Task<XDocument> GetMarsReportRunStatusAsync(string[] reportNames, DateTime cobDate)
+{
+    XmlRequest request = new();
+    XmlRequestItem requestItem = new("ListReportRunsStatus");
+
+    requestItem.AttributeValueCollection.Add("cob_date", cobDate.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture));
+
+    foreach (string reportName in reportNames)
+    {
+        XmlRequestItem requestItemRequest = new("ListReportRunsStatusRequest")
+        {
+            AttributeValueCollection = { ["report_name"] = reportName }
+        };
+
+        requestItem.AddChildRequestItem(requestItemRequest);
+    }
+
+    request.AddRequestNode(requestItem);
+
+    DBServerHttpXmlRequest requestDocument = new(request, m_ConnectionString, m_DefaultProxy, m_UserName);
+    string resultXml = await requestDocument.PostRequestAsync();
+    XDocument results = XDocument.Parse(resultXml);
+
+    return results;
+}
+
 async Task<XDocument> ListReportTagsAsync()
 {
     XmlRequest request = new();
