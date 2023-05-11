@@ -1,6 +1,32 @@
 using System.Xml.Linq;
 using System.Xml.XPath;
 
+async Task<XPathDocument> GetHierarchyDocumentLiteAsync(string hierarchyName, int levels, DateTime cobDate, string startNodeId)
+{
+    XmlRequest request = new();
+    XmlRequestItem requestItem = new("GetHierarchy", m_ClientSystemName)
+    {
+        AttributeValueCollection = 
+        {
+            ["hierarchy_name"] = hierarchyName,
+            ["levels"] = levels.ToString(),
+            ["date"] = HtmlUtility.StandardCobDate(cobDate),
+            ["start_node"] = startNodeId,
+            ["detail"] = "all"
+        }
+    };
+    request.AddRequestNode(requestItem);
+
+    DBServerHttpXmlRequest requestDocument = new(request, m_ConnectionString, m_DefaultProxy, m_UserName);
+
+    string resultXml = await requestDocument.PostRequestLiteAsync();
+    XDocument xDocument = XDocument.Parse(resultXml);
+    XPathDocument results = new XPathDocument(xDocument.CreateReader());
+
+    return results;
+}
+
+
 async Task<XPathDocument> GetHierarchyDiffAsync(string hierarchyName, DateTime fromDate, DateTime toDate)
 {
     XmlRequest request = new();
