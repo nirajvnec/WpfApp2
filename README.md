@@ -1,4 +1,19 @@
-using System.Xml.Linq;
+async Task<XmlDocument> GetNewBatchesAsync(DateTime since)
+{
+    XmlRequest request = new();
+    XmlRequestItem requestItem = new("GetNewBatchReports", m_ClientSystemName)
+    {
+        AttributeValueCollection = { ["since"] = since.ToString("yyyyMMdd HH:mm:ss") }
+    };
+    request.AddRequestNode(requestItem);
+
+    DBServerHttpXmlRequest requestDocument = new(request, m_ConnectionString, m_DefaultProxy, m_UserName);
+
+    XmlDocument results = await requestDocument.PostRequestAsync();
+
+    return results;
+}
+
 
 async Task<XDocument> GetHierarchyDocumentAsync(string hierarchyName, int levels, DateTime cobDate)
 {
