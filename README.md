@@ -1,3 +1,32 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { LabelType } from './label-type';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class LabelService {
+  private apiUrl = 'api/maintenance/GetLabelTypes';
+
+  constructor(private http: HttpClient) { }
+
+  getListofLabelTypesAndValues(): Observable<LabelType[]> {
+    return this.http.get<string[]>(this.apiUrl).pipe(
+      map(strings => strings.map(string => ({ displayText: string, value: string } as LabelType))),
+      catchError(this.handleError<LabelType[]>('getListofLabelTypesAndValues', []))
+    );
+  }
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(error); // log to console instead
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
+  }
+}
 
 
 
