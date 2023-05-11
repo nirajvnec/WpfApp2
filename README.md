@@ -1,4 +1,29 @@
 using System.Xml.Linq;
+using System.Xml.XPath;
+
+async Task<XPathDocument> GetHierarchyDiffAsync(string hierarchyName, DateTime fromDate, DateTime toDate)
+{
+    XmlRequest request = new();
+    XmlRequestItem requestItem = new("GetHierarchyDifferencesByCob", m_ClientSystemName)
+    {
+        AttributeValueCollection = 
+        {
+            ["hierarchy_name"] = hierarchyName,
+            ["from_date"] = fromDate.ToString("yyyyMMdd"),
+            ["to_date"] = toDate.ToString("yyyyMMdd")
+        }
+    };
+    request.AddRequestNode(requestItem);
+
+    DBServerHttpXmlRequest requestDocument = new(request, m_ConnectionString, m_DefaultProxy, m_UserName);
+
+    string resultXml = await requestDocument.PostRequestLiteAsync();
+    XDocument xDocument = XDocument.Parse(resultXml);
+    XPathDocument results = new XPathDocument(xDocument.CreateReader());
+
+    return results;
+}
+
 
 async Task<XDocument> AddReportToMarsNetGroupAsync(string reportname, string groupName = "MaRS Net Reports", string type = "")
 {
