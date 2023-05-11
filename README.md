@@ -1,6 +1,41 @@
 using System.Xml.Linq;
 using System.Threading.Tasks;
 
+async Task<XDocument> ListReportTagsAsync()
+{
+    XmlRequest request = new();
+    XmlRequestItem requestItem = new("ListLabels", m_ClientSystemName)
+    {
+        AttributeValueCollection = { ["label_type"] = "" }
+    };
+    
+    request.AddRequestNode(requestItem);
+
+    DBServerHttpXmlRequest requestDocument = new(request, m_ConnectionString, "", m_UserName);
+    string resultXml = await requestDocument.PostRequestAsync();
+    XDocument results = XDocument.Parse(resultXml);
+
+    return results;
+}
+
+async Task<XDocument> GetDataItemGroupsAsync(string type)
+{
+    XmlRequest request = new();
+    XmlRequestItem requestItem = new("GetDataItemGroups")
+    {
+        AttributeValueCollection = { ["type"] = type }
+    };
+    
+    request.AddRequestNode(requestItem);
+
+    DBServerHttpXmlRequest requestDocument = new(request, m_ConnectionString, "", m_UserName);
+    string resultXml = await requestDocument.PostRequestAsync();
+    XDocument results = XDocument.Parse(resultXml);
+
+    return results;
+}
+
+
 async Task<XDocument> GetNewReportsAsync(DateTime since)
 {
     XmlRequest request = new();
