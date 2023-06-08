@@ -1,3 +1,17 @@
+public removeItemsFromGroup(type: string, groupName: string, items: string[]): Observable<any> {
+  const url = 'YOUR_API_ENDPOINT_URL'; // Replace with your actual API endpoint URL
+
+  const params = {
+    type: type,
+    groupName: groupName,
+    items: items
+  };
+
+  return this.http.delete(url, { params });
+}
+
+
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
