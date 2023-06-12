@@ -1,3 +1,20 @@
+export class YourComponent implements AfterContentInit {
+  // Component properties, methods, and lifecycle hooks
+
+  ngAfterContentInit() {
+    // Check all the checkboxes with the specified selector
+    if (this.checkboxes && this.checkboxes.length > 0) {
+      this.checkboxes.forEach((cb: any) => {
+        cb.nativeElement.checked = true;
+      });
+    }
+  }
+}
+
+@ViewChildren('checkbox') checkboxes: QueryList<any>;
+
+
+
 @ViewChildren('checkbox') checkboxes: QueryList<any>;
 
 
