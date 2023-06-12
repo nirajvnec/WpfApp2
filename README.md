@@ -1,3 +1,70 @@
+<div class="col-and-12">
+  <mnet-notification [showNotification]="listDataSource?.data?.length === 0" [message]="'No data available'"></mnet-notification>
+  <div *ngIf="showSelectAllCheckbox" class="mat-elevation-z2 mb-2 rounded-xl">
+    <mat-table #tableFilePath [dataSource]="listDataSource" matSort>
+      <ng-container matColumnDef="Select">
+        <mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="selectAll($event)"></mat-checkbox>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let searchItem">
+          <mat-checkbox (change)="manageSelection(searchItem)" [checked]="selection?.isSelected(searchItem)"></mat-checkbox>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="{{displayedColumns[1]}}">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>{{displayedColumns[1]}}</mat-header-cell>
+        <mat-cell *matCellDef="let searchItem">{{searchItem.name}}</mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator #listPaginator [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>
+
+
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-parent-component',
+  templateUrl: './parent.component.html',
+  styleUrls: ['./parent.component.css']
+})
+export class ParentComponent {
+  shouldShowSelectAll: boolean = false;
+
+  toggleSelectAllVisibility() {
+    this.shouldShowSelectAll = !this.shouldShowSelectAll;
+  }
+}
+
+
+
+import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-child-component',
+  templateUrl: './child.component.html',
+  styleUrls: ['./child.component.css']
+})
+export class ChildComponent {
+  @Input() showSelectAllCheckbox: boolean = false;
+
+  // Rest of the component logic
+}
+
+
+selectAll(event: Event) {
+  const checkbox = event.target as HTMLInputElement;
+  const checkboxes = document.querySelectorAll('mat-checkbox.mat-checkbox-input');
+
+  checkboxes.forEach((cb: HTMLInputElement) => {
+    cb.checked = checkbox.checked;
+    // Perform additional logic or update data/model as needed
+  });
+}
+
+
+
 public removeItemsFromGroup(type: string, groupName: string, items: string[]): Observable<any> {
   const url = 'YOUR_API_ENDPOINT_URL'; // Replace with your actual API endpoint URL
 
