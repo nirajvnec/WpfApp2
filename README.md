@@ -1,3 +1,11 @@
+<div class="col-and-12">
+  <!-- Other code -->
+  <app-select-all-row [checked]="selectAllChecked" (toggleChecked)="toggleSelectAll()"></app-select-all-row>
+  <!-- Other code -->
+</div>
+
+
+
 ng generate module select-all-row --module=MarsAdminModule --route select-all-row
 
 ng generate component select-all-row --module=MarsAdminModule
