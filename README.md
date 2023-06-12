@@ -1,3 +1,6 @@
+@ViewChildren('checkbox') checkboxes: QueryList<any>;
+
+
 toggleSelectAll() {
   this.checkboxes.forEach((checkbox: any) => {
     checkbox.checked = true;
