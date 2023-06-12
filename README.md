@@ -2,6 +2,31 @@ ng generate module select-all-row --module=MarsAdminModule --route select-all-ro
 
 ng generate component select-all-row --module=MarsAdminModule
 
+<div class="col-and-12">
+  <mnet-notification [showNotification]="listDataSource?.data?.length === 0" [message]="'No data available'"></mnet-notification>
+  <div *ngIf="showSelectAllCheckbox" class="mat-elevation-z2 mb-2 rounded-xl">
+    <mat-table #tableFilePath [dataSource]="listDataSource" matSort>
+      <ng-container matColumnDef="Select">
+        <mat-header-cell *matHeaderCellDef>
+          <mat-checkbox [(ngModel)]="selectAllChecked" (change)="toggleSelectAll()"></mat-checkbox>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let searchItem">
+          <mat-checkbox (change)="manageSelection(searchItem)" [(ngModel)]="searchItem.isSelected"></mat-checkbox>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="Name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+        <mat-cell *matCellDef="let searchItem"> {{ searchItem.name }} </mat-cell>
+      </ng-container>
+      <!-- Add your other column definitions here -->
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator #listPaginator [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>
+
 
 
 <div class="col-and-12">
