@@ -1,3 +1,7 @@
+<app-child-component [showSelectAllCheckbox]="shouldShowSelectAll"></app-child-component>
+
+
+
 <div class="col-and-12">
   <mnet-notification [showNotification]="listDataSource?.data?.length === 0" [message]="'No data available'"></mnet-notification>
   <div *ngIf="showSelectAllCheckbox" class="mat-elevation-z2 mb-2 rounded-xl">
