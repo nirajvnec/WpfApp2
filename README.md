@@ -1,3 +1,17 @@
+import { MatCheckbox } from '@angular/material/checkbox';
+
+selectAll(event: Event) {
+  const checkbox = event.target as MatCheckbox;
+  const checkboxes = Array.from(document.querySelectorAll('.mat-checkbox-input'));
+
+  checkboxes.forEach((cb: HTMLInputElement) => {
+    const matCheckbox = cb as MatCheckbox;
+    matCheckbox.checked = checkbox.checked;
+  });
+}
+
+
+
 <app-child-component [showSelectAllCheckbox]="shouldShowSelectAll"></app-child-component>
 
 shouldShowSelectAll: boolean = false;
