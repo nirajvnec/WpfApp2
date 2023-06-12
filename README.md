@@ -1,3 +1,10 @@
+toggleSelectAll() {
+  this.checkboxes.forEach((checkbox: any) => {
+    checkbox.checked = true;
+  });
+}
+
+
 <div class="col-and-12">
   <!-- Other code -->
   <app-select-all-row [checked]="selectAllChecked" (toggleChecked)="toggleSelectAll()"></app-select-all-row>
