@@ -1,6 +1,6 @@
 <app-child-component [showSelectAllCheckbox]="shouldShowSelectAll"></app-child-component>
 
-
+shouldShowSelectAll: boolean = false;
 
 <div class="col-and-12">
   <mnet-notification [showNotification]="listDataSource?.data?.length === 0" [message]="'No data available'"></mnet-notification>
