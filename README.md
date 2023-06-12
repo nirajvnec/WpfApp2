@@ -1,3 +1,36 @@
+import { Component, AfterViewInit } from '@angular/core';
+
+@Component({
+  selector: 'app-your-component',
+  template: `
+    <input type="checkbox" id="selectAllCheckbox" [(ngModel)]="selectAllChecked" (change)="toggleSelectAll()"> Select All
+    <input type="checkbox" id="mat-checkbox-1-input" [(ngModel)]="checkbox1Checked"> Checkbox 1
+    <input type="checkbox" id="mat-checkbox-2-input" [(ngModel)]="checkbox2Checked"> Checkbox 2
+    <input type="checkbox" id="mat-checkbox-3-input" [(ngModel)]="checkbox3Checked"> Checkbox 3
+  `,
+})
+export class YourComponent implements AfterViewInit {
+  selectAllChecked: boolean = false;
+  checkbox1Checked: boolean = false;
+  checkbox2Checked: boolean = false;
+  checkbox3Checked: boolean = false;
+
+  ngAfterViewInit() {
+    const checkboxSelectors = ['#mat-checkbox-\\d+-input']; // Regex pattern to match checkboxes with IDs like '#mat-checkbox-1-input', '#mat-checkbox-2-input', etc.
+    const checkboxes = Array.from(document.querySelectorAll('input[type="checkbox"]')).filter((checkbox: HTMLInputElement) => {
+      return checkboxSelectors.some((selector) => new RegExp(selector).test(checkbox.id));
+    });
+    checkboxes.forEach((checkbox: HTMLInputElement) => {
+      checkbox.checked = this.selectAllChecked;
+    });
+  }
+
+  toggleSelectAll() {
+    // Implement the logic to handle the select all functionality
+  }
+}
+
+
 export class YourComponent implements AfterContentInit {
   // Component properties, methods, and lifecycle hooks
 
