@@ -1,5 +1,8 @@
 ng generate module select-all-row --module=MarsAdminModule --route select-all-row
 
+ng generate component select-all-row --module=MarsAdminModule
+
+
 
 <div class="col-and-12">
   <mnet-notification [showNotification]="listDataSource?.data?.length === 0" [message]="'No data available'"></mnet-notification>
