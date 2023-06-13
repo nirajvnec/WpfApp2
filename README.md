@@ -1,4 +1,26 @@
 import { Component } from '@angular/core';
+import { YourService } from './your.service';
+import { Item } from './item.interface';
+
+@Component({
+  selector: 'app-your-component',
+  templateUrl: './your-component.component.html',
+  styleUrls: ['./your-component.component.css']
+})
+export class YourComponent {
+  items: Item[] = [];
+
+  constructor(private yourService: YourService) {}
+
+  ngOnInit() {
+    this.yourService.getStringArray().subscribe((response: string[]) => {
+      this.items = response.map(name => ({ name, selected: false }));
+    });
+  }
+}
+
+
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-parent',
