@@ -1,3 +1,32 @@
+import { Component, ViewChild } from '@angular/core';
+import { Item } from './item.interface';
+import { GridComponent } from './grid.component';
+
+@Component({
+  selector: 'app-parent',
+  templateUrl: './parent.component.html',
+  styleUrls: ['./parent.component.css']
+})
+export class ParentComponent {
+  items: Item[] = [
+    { selected: false, name: 'Item 1' },
+    { selected: false, name: 'Item 2' },
+    { selected: false, name: 'Item 3' }
+    // Add more items as needed
+  ];
+
+  selectedItems: Item[] = [];
+
+  @ViewChild(GridComponent) gridComponent: GridComponent;
+
+  ngAfterViewInit() {
+    this.gridComponent.onItemSelectionChange.subscribe(() => {
+      this.selectedItems = this.items.filter(item => item.selected);
+    });
+  }
+}
+
+
 <table class="table">
   <thead>
     <tr>
