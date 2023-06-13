@@ -1,3 +1,24 @@
+import { Component, Input } from '@angular/core';
+import { Item } from '../item.interface';
+
+@Component({
+  selector: 'app-grid',
+  templateUrl: './grid.component.html',
+  styleUrls: ['./grid.component.css']
+})
+export class GridComponent {
+  @Input() items: Item[] = [];
+
+  selectAll(checked: boolean) {
+    this.items.forEach(item => item.selected = checked);
+  }
+
+  toggleSelection(item: Item) {
+    item.selected = !item.selected;
+  }
+}
+
+
 import { Component, ViewChild } from '@angular/core';
 import { Item } from './item.interface';
 import { GridComponent } from './grid.component';
