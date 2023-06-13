@@ -1,3 +1,90 @@
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-parent',
+  templateUrl: './parent.component.html',
+  styleUrls: ['./parent.component.css']
+})
+export class ParentComponent {
+  items = [
+    { selected: false, column1: 'Item 1 Column 1', column2: 'Item 1 Column 2' },
+    { selected: false, column1: 'Item 2 Column 1', column2: 'Item 2 Column 2' },
+    { selected: false, column1: 'Item 3 Column 1', column2: 'Item 3 Column 2' }
+    // Add more items as needed
+  ];
+
+  selectedItems = [];
+}
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>
+              <input type="checkbox" (change)="selectAll($event.target.checked)" />
+            </th>
+            <th>Column 1</th>
+            <th>Column 2</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of items">
+            <td>
+              <input type="checkbox" [(ngModel)]="item.selected" />
+            </td>
+            <td>{{ item.column1 }}</td>
+            <td>{{ item.column2 }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<app-grid [items]="items"></app-grid>
+
+<div class="selected-items">
+  <h4>Selected Items:</h4>
+  <ul>
+    <li *ngFor="let selectedItem of selectedItems">{{ selectedItem.column1 }} - {{ selectedItem.column2 }}</li>
+  </ul>
+</div>
+
+selectAll(checked: boolean) {
+  this.items.forEach(item => item.selected = checked);
+
+  if (checked) {
+    this.selectedItems = [...this.items];
+  } else {
+    this.selectedItems = [];
+  }
+}
+
+child component
+import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-grid',
+  templateUrl: './grid.component.html',
+  styleUrls: ['./grid.component.css']
+})
+export class GridComponent {
+  @Input() items: any[] = [];
+
+  selectAll(checked: boolean) {
+    this.items.forEach(item => item.selected = checked);
+  }
+}
+
+
+
+
+
 import { Component, AfterViewInit } from '@angular/core';
 
 @Component({
