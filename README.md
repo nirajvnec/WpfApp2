@@ -1,3 +1,28 @@
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Item } from '../item.interface';
+
+@Component({
+  selector: 'app-grid',
+  templateUrl: './grid.component.html',
+  styleUrls: ['./grid.component.css']
+})
+export class GridComponent {
+  @Input() items: Item[] = [];
+  @Output() onItemSelectionChange: EventEmitter<void> = new EventEmitter<void>();
+
+  selectAll(checked: boolean) {
+    this.items.forEach(item => item.selected = checked);
+    this.onItemSelectionChange.emit();
+  }
+
+  toggleSelection(item: Item) {
+    item.selected = !item.selected;
+    this.onItemSelectionChange.emit();
+  }
+}
+
+
+
 import { Component, Input } from '@angular/core';
 import { Item } from '../item.interface';
 
