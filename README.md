@@ -1,3 +1,32 @@
+
+import { Observable } from 'rxjs';
+
+interface ResultSet {
+  id: string;
+  name: string;
+}
+
+// Assuming you have an Observable<string[]> named 'source$'
+const source$: Observable<string[]> = ...;
+
+// Map the Observable<string[]> to ResultSet[]
+source$.pipe(
+  map((array: string[]) => {
+    return array.map((item: string, index: number) => {
+      const result: ResultSet = {
+        id: index.toString(),  // Assign the index as 'id' property
+        name: item             // Map the item to 'name' property
+      };
+      return result;
+    });
+  })
+).subscribe((resultSetArray: ResultSet[]) => {
+  // Handle the resulting ResultSet[] array
+  console.log(resultSetArray);
+});
+
+
+
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Item } from '../item.interface';
 
