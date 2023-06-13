@@ -1,3 +1,77 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>
+        <input type="checkbox" (change)="selectAll($event.target.checked)">
+      </th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of items">
+      <td>
+        <input type="checkbox" [(ngModel)]="item.selected" (change)="toggleSelection(item)">
+      </td>
+      <td>{{ item.name }}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Item } from '../item.interface';
+
+@Component({
+  selector: 'app-grid',
+  templateUrl: './grid.component.html',
+  styleUrls: ['./grid.component.css']
+})
+export class GridComponent {
+  @Input() items: Item[] = [];
+  @Output() onItemSelectionChange: EventEmitter<void> = new EventEmitter<void>();
+
+  selectAll(checked: boolean) {
+    this.items.forEach(item => item.selected = checked);
+    this.onItemSelectionChange.emit();
+  }
+
+  toggleSelection(item: Item) {
+    item.selected = !item.selected;
+    this.onItemSelectionChange.emit();
+  }
+}
+
+Parent
+<app-grid [items]="items" (onItemSelectionChange)="onItemSelectionChange()"></app-grid>
+
+import { Component } from '@angular/core';
+import { Item } from './item.interface';
+
+@Component({
+  selector: 'app-parent',
+  templateUrl: './parent.component.html',
+  styleUrls: ['./parent.component.css']
+})
+export class ParentComponent {
+  items: Item[] = [
+    { selected: false, name: 'Item 1' },
+    { selected: false, name: 'Item 2' },
+    { selected: false, name: 'Item 3' }
+    // Add more items as needed
+  ];
+
+  selectedItems: Item[] = [];
+
+  onItemSelectionChange() {
+    this.selectedItems = this.items.filter(item => item.selected);
+  }
+}
+  
+
+
+
+
+
 import { Component } from '@angular/core';
 import { YourService } from './your.service';
 import { Item } from './item.interface';
