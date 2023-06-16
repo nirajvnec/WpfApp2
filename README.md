@@ -1,4 +1,45 @@
 
+import { Injectable } from '@angular/core';
+import {
+  CanActivate,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+  Router,
+} from '@angular/router';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+
+@Injectable()
+export class AuthorizationGuard implements CanActivate {
+  constructor(private http: HttpClient, private router: Router) {}
+
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> | Promise<boolean> | boolean {
+    return this.http
+      .get<any>('api/some-action')
+      .toPromise()
+      .then((response) => {
+        const isAuthorized = response.headers.get('AuthorizationStatus');
+        if (!isAuthorized) {
+          this.router.navigate(['/error']);
+          return false;
+        }
+        return true;
+      })
+      .catch((error) => {
+        // Handle the error
+        return false;
+      });
+  }
+}
+
+
+
+
+
+
 import { Observable } from 'rxjs';
 
 interface ResultSet {
