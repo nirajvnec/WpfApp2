@@ -1,4 +1,21 @@
-
+canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> | Promise<boolean> | boolean {
+    return this.authService.checkAuthorization().toPromise()
+      .then((response) => {
+        const isAuthorized = response.headers.get('AuthorizationStatus');
+        if (!isAuthorized) {
+          this.router.navigate(['/error']);
+          return false;
+        }
+        return true;
+      })
+      .catch((error) => {
+        // Handle the error
+        return false;
+      });
+  }
 import { Injectable } from '@angular/core';
 import {
   CanActivate,
