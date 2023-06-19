@@ -1,3 +1,20 @@
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+
+public static class WebHostEnvironmentExtensions
+{
+    public static string GetFilePath(this IWebHostEnvironment hostEnvironment, string relativePath)
+    {
+        string contentRootPath = hostEnvironment.ContentRootPath;
+        string filePath = Path.Combine(contentRootPath, relativePath);
+
+        return filePath;
+    }
+}
+
+
+
+
 canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
