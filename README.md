@@ -1,3 +1,34 @@
+using System;
+using System.Collections.Generic;
+
+public static class MyClassExtensions
+{
+    public static List<string> GetPropertiesContainingString(this MyClass obj, string input)
+    {
+        List<string> properties = new List<string>();
+
+        if (obj.Property1.Contains(input))
+            properties.Add(nameof(MyClass.Property1));
+
+        if (obj.Property2.Contains(input))
+            properties.Add(nameof(MyClass.Property2));
+
+        if (obj.Property3.Contains(input))
+            properties.Add(nameof(MyClass.Property3));
+
+        if (obj.Property4.Contains(input))
+            properties.Add(nameof(MyClass.Property4));
+
+        if (obj.Property5.Contains(input))
+            properties.Add(nameof(MyClass.Property5));
+
+        return properties;
+    }
+}
+
+
+
+
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 
