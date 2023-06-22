@@ -1,3 +1,18 @@
+using System.Collections.Generic;
+using System.Linq;
+
+public static class StringExtensions
+{
+    public static string RemoveUnderscores(this string input)
+    {
+        return new string(input.Where(c => c != '_').ToArray());
+    }
+
+    public static List<string> RemoveUnderscores(this List<string> strings)
+    {
+        return strings.Select(s => s.RemoveUnderscores()).ToList();
+    }
+}
 
 using System.Collections.Generic;
 using System.Linq;
