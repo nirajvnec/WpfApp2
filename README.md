@@ -1,3 +1,20 @@
+
+using System.Collections.Generic;
+using System.Linq;
+
+public static class StringExtensions
+{
+    public static List<string> RemoveSpacesBetweenCharacters(this List<string> strings)
+    {
+        return strings.Select(s => string.Concat(s.Split())).ToList();
+    }
+}
+
+
+
+
+
+
 using System;
 using System.Collections.Generic;
 
