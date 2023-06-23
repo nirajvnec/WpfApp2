@@ -1,3 +1,12 @@
+List<RRPResultSet> cachedResultSets = memoryCache.Get<List<RRPResultSet>>(rrpSession);
+
+if (cachedResultSets != null)
+{
+    // Use the cachedResultSets as needed
+    // ...
+}
+
+
 private void CreateResultSetTable(XmlNodeList nodesList, string rrpSession, string rrpCobDate, IMemoryCache memoryCache)
 {
     var rrpDelimiter = Configuration.GetSection("RRPDelimiter").Value;
