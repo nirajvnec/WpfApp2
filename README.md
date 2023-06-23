@@ -1,3 +1,32 @@
+private void CreateResultSetTable(XmlNodeList nodesList, string rrpSession, string rrpCobDate, IMemoryCache memoryCache)
+{
+    var rrpDelimiter = Configuration.GetSection("RRPDelimiter").Value;
+    var rrpResultSets = new List<RRPResultSet>();
+
+    foreach (XmlNode node in nodesList)
+    {
+        var rrpRowData = GetRRPResultSetFromResultSetName(node.Attributes["Pid"].Value, node.InnerText, rrpDelimiter);
+
+        if (rrpRowData is not null && rrpRowData.UnitIdentifier != "CSGROUP_DIV")
+        {
+            rrpResultSets.Add(rrpRowData);
+        }
+    }
+
+    if (rrpResultSets.Any())
+    {
+        rrpResultSets = rrpResultSets.OrderByDescending(x => x.InstanceIdentifier)
+                                     .ThenBy(x => x.ValuationType)
+                                     .ThenBy(x => x.ProjectionPoint)
+                                     .ToList();
+
+        GetResults(rrpResultSets, rrpCobDate);
+
+        memoryCache.Set(rrpSession, rrpResultSets, TimeSpan.FromMinutes(30)); // Adjust the expiration time as per your requirements
+    }
+}
+
+
 using System.Collections.Generic;
 using System.Linq;
 
