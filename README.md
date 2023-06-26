@@ -1,3 +1,44 @@
+string cacheKey = "rrpSession";
+cache.Set(cacheKey, rrpResultSets);
+
+List<RRPResultSet> cachedResultSets = cache.Get<List<RRPResultSet>>(cacheKey);
+
+
+dotnet add package Serilog
+dotnet add package Serilog.Extensions.Logging
+dotnet add package Serilog.Sinks.Console
+dotnet add package Serilog.Sinks.File
+
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+using Serilog;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        CreateHostBuilder(args).Build().Run();
+    }
+
+    public static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+            .UseSerilog((hostingContext, loggerConfiguration) =>
+            {
+                loggerConfiguration
+                    .ReadFrom.Configuration(hostingContext.Configuration)
+                    .Enrich.FromLogContext()
+                    .WriteTo.Console()
+                    .WriteTo.File("logs.txt", rollingInterval: RollingInterval.Day);
+            })
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            });
+}
+
+
+
+
 List<RRPResultSet> cachedResultSets = memoryCache.Get<List<RRPResultSet>>(rrpSession);
 
 if (cachedResultSets != null)
