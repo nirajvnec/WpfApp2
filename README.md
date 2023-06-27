@@ -1,3 +1,51 @@
+using System;
+using System.Xml;
+using System.Xml.Linq;
+
+public static class XElementExtensions
+{
+    public static XElement CreateXElement(this string inputXml)
+    {
+        XElement element = new XElement("Request",
+            new XElement("MaRSNetSession",
+                new XElement("LogOnDetails",
+                    new XElement("User", new XAttribute("name", "nkumar152"),
+                        new XElement("Groups")
+                    )
+                ),
+                new XElement("Signature")
+            ),
+            XElement.Parse(inputXml) // Converts the given inputXml to XElement and includes it in the resulting structure
+        );
+
+        return element;
+    }
+
+    public static XmlDocument ToXmlDocument(this XElement element)
+    {
+        var document = new XmlDocument();
+        document.LoadXml(element.ToString());
+        return document;
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        string inputXml = "<GetResultSetNames username=\"nkuma152\" client_ref=\"MarsNet\" hame_pattern=\"RRPScen96\"><FirstDate>2023/3/31</FirstDate><LastDate>2023/3/31</LastDate></GetResultSetNames>";
+
+        XElement result = inputXml.CreateXElement();
+
+        XmlDocument xmlDoc = result.ToXmlDocument();
+
+        Console.WriteLine(xmlDoc.OuterXml); // Output the final XML structure as a string
+    }
+}
+
+
+
+
 string cacheKey = "rrpSession";
 cache.Set(cacheKey, rrpResultSets);
 
