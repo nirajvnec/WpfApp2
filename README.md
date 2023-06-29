@@ -1,3 +1,8 @@
+Hi Kartik,
+
+Please send the List Of Marsnet Application environment for Global SIT, UAT, PROD and for SWISS. Based on these i have to implement a logic in Marsnet2 if the request is coming Swiss or Global Marsnet 
+
+
 using System;
 using System.Xml;
 using System.Xml.Linq;
