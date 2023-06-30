@@ -1,3 +1,38 @@
+public class FilteredData
+{
+    public IEnumerable<string> UnitIdentifiers { get; set; }
+    public IEnumerable<string> CapitalComponents { get; set; }
+    public IEnumerable<string> ProjectionPoints { get; set; }
+}
+
+public FilteredData PopulateFilters(IEnumerable<RRPResultSet> rrpResultSets)
+{
+    var unitIdentifiers = rrpResultSets
+        .Select(x => x.UnitIdentifier)
+        .Where(x => !x.Equals("SCEN", StringComparison.InvariantCultureIgnoreCase))
+        .Distinct()
+        .OrderBy(x => x);
+
+    var capitalComponents = rrpResultSets
+        .Select(x => x.Capita1Component)
+        .Where(x => x.StartsWith("RWA"))
+        .Distinct()
+        .OrderBy(x => x);
+
+    var projectionPoints = rrpResultSets
+        .Select(x => x.ProjectionPoint)
+        .Distinct()
+        .OrderBy(x => x);
+
+    var filteredData = new FilteredData
+    {
+        UnitIdentifiers = unitIdentifiers,
+        CapitalComponents = capitalComponents,
+        ProjectionPoints = projectionPoints
+    };
+
+    return filteredData;
+}
 
 
 using System;
