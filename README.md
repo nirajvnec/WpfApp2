@@ -1,3 +1,35 @@
+export interface FilteredData {
+  unitIdentifiers: string[];
+  capitalComponents: string[];
+  projectionPoints: string[];
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class YourService {
+  private apiUrl = 'https://api.example.com/filtered-data'; // Replace with your API URL
+
+  constructor(private http: HttpClient) { }
+
+  getFilteredData(): Observable<FilteredData> {
+    return this.http.get<FilteredData>(this.apiUrl).pipe(
+      map(response => this.mapFilteredData(response))
+    );
+  }
+
+  private mapFilteredData(response: any): FilteredData {
+    // Perform any necessary mapping or transformation here
+    // Assuming the response matches the structure of FilteredData
+    return {
+      unitIdentifiers: response.unitIdentifiers,
+      capitalComponents: response.capitalComponents,
+      projectionPoints: response.projectionPoints
+    };
+  }
+}
+
+
 public class FilteredData
 {
     public IEnumerable<string> UnitIdentifiers { get; set; }
