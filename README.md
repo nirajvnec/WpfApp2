@@ -1,3 +1,31 @@
+@Component({
+  selector: 'app-your-component',
+  templateUrl: './your-component.component.html',
+  styleUrls: ['./your-component.component.css']
+})
+export class YourComponent implements OnInit {
+  filteredData: FilteredData | null = null;
+
+  constructor(private yourService: YourService) { }
+
+  ngOnInit() {
+    this.getFilteredData();
+  }
+
+  getFilteredData() {
+    this.yourService.getFilteredData().subscribe(
+      (data: FilteredData) => {
+        this.filteredData = data;
+        // Perform any additional logic with the filtered data
+      },
+      (error) => {
+        // Handle error if needed
+      }
+    );
+  }
+}
+
+
 export interface FilteredData {
   unitIdentifiers: string[];
   capitalComponents: string[];
