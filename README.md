@@ -1,3 +1,37 @@
+@ViewChild('legendContainer', { static: true }) legendContainerRef!: ElementRef;
+
+// ...
+
+getOrCreateLegendList(chart: any, id: string): HTMLElement {
+  const legendContainer = this.legendContainerRef.nativeElement;
+  let listContainer = legendContainer.querySelector('ul');
+
+  if (!listContainer) {
+    listContainer = document.createElement('ul');
+    listContainer.style.display = 'flex';
+    listContainer.style.flexDirection = 'row';
+    listContainer.style.margin = '0';
+    listContainer.style.padding = '0';
+
+    legendContainer.appendChild(listContainer);
+  }
+
+  return listContainer;
+}
+
+
+
+const htmlLegendPlugin = {
+  id: 'htmlLegend',
+  afterUpdate: (chart: any, args: any, options: any) => {
+    const legendContainer = this.legendContainerRef.nativeElement;
+    const listContainer = getOrCreateLegendList(chart, legendContainer.id);
+    // Rest of the code
+  }
+};
+
+
+
 const htmlLegendPlugin = {
   id: 'htmlLegend',
   afterUpdate: (chart: any, args: any, options: any) => {
