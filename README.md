@@ -1,3 +1,45 @@
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+
+@Component({
+  selector: 'app-legend',
+  template: `
+    <div #legendContainer>
+      <ul #listContainer></ul>
+    </div>
+  `,
+  styles: []
+})
+export class LegendComponent implements OnInit {
+  @ViewChild('legendContainer', { static: true }) legendContainerRef!: ElementRef;
+  @ViewChild('listContainer', { static: true }) listContainerRef!: ElementRef;
+
+  constructor() { }
+
+  ngOnInit() {
+    this.getOrCreateLegendList();
+  }
+
+  getOrCreateLegendList() {
+    const legendContainer = this.legendContainerRef.nativeElement;
+    let listContainer = this.listContainerRef.nativeElement;
+
+    if (!listContainer) {
+      listContainer = document.createElement('ul');
+      listContainer.style.display = 'flex';
+      listContainer.style.flexDirection = 'row';
+      listContainer.style.margin = '0';
+      listContainer.style.padding = '0';
+
+      legendContainer.appendChild(listContainer);
+    }
+
+    return listContainer;
+  }
+}
+
+
+
+
 @Component({
   selector: 'app-your-component',
   templateUrl: './your-component.component.html',
