@@ -1,3 +1,8 @@
+import { registerables } from 'chart.js';
+
+Chart.register(...registerables);
+
+
 import { Component, OnInit } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 
