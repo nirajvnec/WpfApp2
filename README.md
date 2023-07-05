@@ -1,3 +1,13 @@
+const htmlLegendPlugin = {
+  id: 'htmlLegend',
+  afterUpdate: (chart: any, args: any, options: any) => {
+    const legendContainer = this.legendContainerRef.nativeElement;
+    const listContainer = getOrCreateLegendList(chart, legendContainer.id);
+    // Rest of the code
+  }
+};
+
+
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 @Component({
