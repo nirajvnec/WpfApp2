@@ -1,3 +1,24 @@
+const resultSetModels: RrpResultSetModel[] = [];
+
+res.forEach((item: any) => {
+  const resultSetModel: RrpResultSetModel = new RrpResultSetModel();
+  resultSetModel.id = item.id;
+  resultSetModel.resultSetName = item.resultSetName;
+  resultSetModel.parentReportName = item.parentReportName;
+  resultSetModel.unitIdentifier = item.unitIdentifier;
+  resultSetModel.instanceIdentifier = item.instanceIdentifier;
+  resultSetModel.valuationType = item.valuationType;
+  resultSetModel.projectionPoint = item.projectionPoint;
+  resultSetModel.projectionDate = item.projectionDate;
+  resultSetModel.capitalComponent = item.capitalComponent;
+  resultSetModel.resultValue = item.resultValue;
+  resultSetModel.resultVersion = item.resultVersion;
+
+  resultSetModels.push(resultSetModel);
+});
+
+
+
 import { registerables } from 'chart.js';
 
 Chart.register(...registerables);
