@@ -1,3 +1,67 @@
+import { Component, OnInit } from '@angular/core';
+import Chart, { ChartType } from 'chart.js/auto';
+
+export class YourComponent implements OnInit {
+  ngOnInit() {
+    this.parseDataAndShowBarChart(data, xAxisLabel, legendPosition);
+  }
+
+  parseDataAndShowBarChart(data: any[], xAxisLabel: string, legendPosition: string) {
+    const chartData = {
+      labels: data[0],
+      datasets: []
+    };
+
+    for (let i = 0; i < data[1].length; i++) {
+      const dataset = {
+        label: data[1][i],
+        data: data[2][i],
+        backgroundColor: data[3][i]
+      };
+
+      chartData.datasets.push(dataset);
+    }
+
+    const config = {
+      type: 'bar' as ChartType, // Cast the type as ChartType
+      data: chartData,
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            position: legendPosition
+          }
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: xAxisLabel
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'RWA in $'
+            }
+          }
+        }
+      }
+    };
+
+    const rrpBarChart = new Chart('rrpBarChart', config);
+    this.generateTable(data);
+  }
+
+  generateTable(data: any[]) {
+    // Implement your table generation logic here
+  }
+}
+
+
+
+
 export class YourComponent implements OnInit {
   ngOnInit() {
     // Call this method to generate the bar chart
