@@ -12,6 +12,155 @@ GetMultipleJopMultipleLEBarChart(
   let i: number;
 
   try {
+    const resultSets: RrpResultSetModel[] = GetMultipleResultSetsForChart(
+      legalEntity,
+      capitalComponent,
+      projectionPoint,
+      rrpSession
+    );
+
+    if (resultSets.length === 0) {
+      return null;
+    }
+
+    const projectionPoints = [
+      ...new Set(resultSets.map((x) => x.projectionPoint)),
+    ].sort();
+    const legalEntities = [
+      ...new Set(resultSets.map((x) => x.unitIdentifier)),
+    ].sort();
+    const capitalComponents = [
+      ...new Set(resultSets.map((x) => x.capitalComponent)),
+    ].sort();
+
+    chartData.push(cdLabel);
+    addLegendDataRow('', '', cdLabel, chartLegend);
+
+    for (const cc of capitalComponents) {
+      for (const proj of projectionPoints) {
+        i = 1;
+        for (const resultSet of resultSets) {
+          const jop = `JoP ${i}`;
+          const ds = new ChartDataset();
+          ds.label = `${jop} — ${proj} — ${cc}`;
+          ds.type = 'bar';
+          ds.stack = `${jop} — ${proj}`;
+
+          for (const le of legalEntities) {
+            if (
+              resultSet.unitIdentifier === le &&
+              resultSet.projectionPoint === proj &&
+              resultSet.capitalComponent === cc
+            ) {
+              // Process result
+            } else {
+              ds.data.push(0);
+            }
+          }
+
+          chartDataSets.push(ds);
+          addLegendDataRow(
+            ds.stack,
+            cc,
+            ds.data.map((x) => x.toString()),
+            chartLegend
+          );
+          i++;
+        }
+      }
+    }
+
+    assignColors(chartDataSets);
+    chartData.push(chartDataSets);
+    chartData.push(chartLegend);
+
+    const spotResultSets: RrpResultSetModel[] = GetMultipleResultSetsForChart(
+      legalEntity,
+      capitalComponent,
+      projectionPoint,
+      rrpSession,
+      true
+    );
+
+    const spotProjectionPoints = [
+      ...new Set(spotResultSets.map((x) => x.projectionPoint)),
+    ].sort();
+    const spotLegalEntities = [
+      ...new Set(spotResultSets.map((x) => x.unitIdentifier)),
+    ].sort();
+
+    addLegendDataRow('', '', spotLegalEntities, spotChartLegend);
+    i = 1;
+
+    for (const resultSet of spotResultSets) {
+      const jop = `JoP ${i}`;
+      for (const prod of spotProjectionPoints) {
+        for (const cc of capitalComponents) {
+          const data: number[] = [];
+          for (const le of spotLegalEntities) {
+            if (
+              resultSet.unitIdentifier === le &&
+              resultSet.projectionPoint === proj &&
+              resultSet.capitalComponent === cc
+            ) {
+              data.push(parseInt(resultSet.resultValue));
+            } else {
+              data.push(0);
+            }
+          }
+          addLegendDataRow(
+            `${jop} ${proj}`,
+            cc,
+            data.map((x) => x.toString()),
+            spotChartLegend
+          );
+          i++;
+          chartData.push(spotChartLegend);
+          for (const results of resultSets) {
+            const instances = getInstances(results).map((x) => ({
+              UnitIdentifier: x.unitIdentifier,
+              ValuationType: x.valuationType,
+              InstanceIdentifier: x.instanceIdentifier,
+            }));
+            chartData.push(instances);
+          }
+        }
+      }
+    }
+  } catch (error) {
+    return chartData;
+  }
+
+  return chartData;
+}
+
+function addLegendDataRow(column1: string, column2: string, data: string[], chartLegend: string[][]): void {
+  const row: string[] = [column1, column2];
+  row.push(...data);
+  chartLegend.push(row);
+}
+
+
+
+
+
+
+
+
+GetMultipleJopMultipleLEBarChart(
+  legalEntity: string[],
+  capitalComponent: string[],
+  projectionPoint: string[],
+  rrpSession: string
+): object[] {
+  const cdLabel: string[] = [];
+  const chartDataSets: ChartDataset[] = [];
+  const chartLegend: string[][] = [];
+  const spotChartLegend: string[][] = [];
+  const chartData: object[] = [];
+  let i: number;
+
+  try {
     const resultSets: RrpResultSetModel[][] = GetMultipleResultSetsForChart(
       legalEntity,
       capitalComponent,
