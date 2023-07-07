@@ -1,3 +1,77 @@
+function GetMultipleJopMultipleLEBarChart(
+  legalEntity: string,
+  capitalComponent: string,
+  projectionPoint: string,
+  rrpSession: string
+): object[] {
+  const cdLabel: string[] = [];
+  const chartDataSets: ChartDatasets[] = [];
+  const chartLegend: string[][] = [];
+  const spotChartLegend: string[][] = [];
+  const chartData: object[] = [];
+  let i: number;
+
+  try
+  {
+    const resultSets = GetMultipleResultSetsForChart(
+    legalEntity,
+    capitalComponent,
+    projectionPoint,
+    rrpSession
+    );
+
+    if (resultSets.length === 0) {
+      return null;
+    }
+
+    const projectionPoints = [...new Set(resultSets.flatMap((x) => x).map((x) => x.ProjectionPoint))].sort();
+    const legalEntities = [...new Set(resultSets.flatMap((x) => x).map((x) => x.UnitIdentifier))].sort();
+    const capitalComponents = [...new Set(resultSets.flatMap((x) => x).map((x) => x.CapitalComponent))].sort();
+
+    chartData.push(cdLabel);
+    AddLegendDataRow('', '', cdLabel, chartLegend);
+
+    for (const cc of capitalComponents) {
+      for (const proj of projectionPoints) {
+          i = 1;
+          for (const resultSet of resultSets) {
+            const jop = `JoP ${i}`;
+            const ds: ChartDatasets = {
+            label: `${jop} — ${proj} — ${cc}`,
+            type: 'bar',
+            stack: `${jop} — ${proj}`,
+            data: [],
+      };
+
+      for (const le of legalEntities) {
+        if (resultSet.some((x) => x.UnitIdentifier === le && x.ProjectionPoint === proj && x.CapitalComponent === cc)) {
+          const result = resultSet.filter((x) => x.UnitIdentifier === le && x.ProjectionPoint === proj && x.CapitalComponent === cc);
+          // Process result
+        } else {
+          ds.data.push(0);
+        }
+      }
+
+      chartDataSets.push(ds);
+      AddLegendDataRow(ds.stack, cc, ds.data.map((x) => x.toString()), chartLegend);
+      i++;
+    }
+  }
+}
+
+
+   } 
+   catch (error) 
+   {
+     return chartData;
+   }
+
+
+}
+
+
+
+
 import { Component, OnInit } from '@angular/core';
 import Chart, { ChartType } from 'chart.js/auto';
 
