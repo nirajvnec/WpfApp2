@@ -1,3 +1,32 @@
+interface RRPResultSet {
+  ValuationType: string;
+  UnitIdentifier: string;
+  InstanceIdentifier: string;
+}
+
+function getInstances(resultSets: RRPResultSet[]): RRPResultSet[] {
+  const filteredResultSets = resultSets
+    .reduce((groups: { [key: string]: RRPResultSet }, resultSet: RRPResultSet) => {
+      const key = `${resultSet.ValuationType}_${resultSet.UnitIdentifier}`;
+      if (!groups[key] || resultSet.InstanceIdentifier < groups[key].InstanceIdentifier) {
+        groups[key] = resultSet;
+      }
+      return groups;
+    }, {})
+    .values();
+
+  const sortedResultSets = [...filteredResultSets].sort((a, b) => {
+    if (a.UnitIdentifier !== b.UnitIdentifier) {
+      return a.UnitIdentifier.localeCompare(b.UnitIdentifier);
+    }
+    return a.ValuationType.localeCompare(b.ValuationType);
+  });
+
+  return sortedResultSets;
+}
+
+
+
 function getInstances(results: any[]): any[] {
   // Placeholder implementation
   // Assuming each result object has properties: UnitIdentifier, ValuationType, InstanceIdentifier
