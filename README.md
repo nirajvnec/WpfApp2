@@ -1,3 +1,16 @@
+function getInstances(results: any[]): any[] {
+  // Placeholder implementation
+  // Assuming each result object has properties: UnitIdentifier, ValuationType, InstanceIdentifier
+  const instances: any[] = results.map((result) => ({
+    UnitIdentifier: result.UnitIdentifier,
+    ValuationType: result.ValuationType,
+    InstanceIdentifier: result.InstanceIdentifier,
+  }));
+
+  return instances;
+}
+
+
 GetMultipleJopMultipleLEBarChart(
   legalEntity: string[],
   capitalComponent: string[],
