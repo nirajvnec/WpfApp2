@@ -12,6 +12,62 @@ function getInstances(resultSets: RRPResultSet[]): RRPResultSet[] {
         groups[key] = resultSet;
       }
       return groups;
+    }, {});
+
+  const sortedResultSets = Object.values(filteredResultSets).sort((a, b) => {
+    if (a.UnitIdentifier !== b.UnitIdentifier) {
+      return a.UnitIdentifier.localeCompare(b.UnitIdentifier);
+    }
+    return a.ValuationType.localeCompare(b.ValuationType);
+  });
+
+  return sortedResultSets;
+}
+
+// Example usage:
+const resultSets: RRPResultSet[] = [
+  {
+    ValuationType: "Val1",
+    UnitIdentifier: "Unit1",
+    InstanceIdentifier: "Inst1",
+  },
+  {
+    ValuationType: "Val2",
+    UnitIdentifier: "Unit1",
+    InstanceIdentifier: "Inst2",
+  },
+  {
+    ValuationType: "Val1",
+    UnitIdentifier: "Unit2",
+    InstanceIdentifier: "Inst3",
+  },
+];
+
+const instances = getInstances(resultSets);
+console.log(instances);
+
+
+
+
+
+
+
+
+
+interface RRPResultSet {
+  ValuationType: string;
+  UnitIdentifier: string;
+  InstanceIdentifier: string;
+}
+
+function getInstances(resultSets: RRPResultSet[]): RRPResultSet[] {
+  const filteredResultSets = resultSets
+    .reduce((groups: { [key: string]: RRPResultSet }, resultSet: RRPResultSet) => {
+      const key = `${resultSet.ValuationType}_${resultSet.UnitIdentifier}`;
+      if (!groups[key] || resultSet.InstanceIdentifier < groups[key].InstanceIdentifier) {
+        groups[key] = resultSet;
+      }
+      return groups;
     }, {})
     .values();
 
