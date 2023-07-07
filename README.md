@@ -1,46 +1,71 @@
-const data = {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-      datasets: [{
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)'
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)'
-        ],
-        borderWidth: 1
-      }]
-    };
+var ctx = document.getElementById('myChart').getContext('2d');
+var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
 
-    // config block
-    const config = {
-      type: 'bar',
-      data: data,
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
+    // The data for our dataset
+    data: {
+        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        datasets: [{
+            label: "My First dataset",
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [0, 10, 5, 2, 20, 30, 45],
+            pointStyle: "line",
+        },
+        {
+            label: "My Second dataset",
+            backgroundColor: 'rgb(0, 99, 132)',
+            borderColor: 'rgb(0, 99, 132)',
+            data: [40, 10, 35, 32, 20, 30, 45],
+            pointStyle: "rect",
+        },
+        {
+            label: "My Third dataset",
+            backgroundColor: 'rgb(0, 0, 132)',
+            borderColor: 'rgb(0, 0, 132)',
+            data: [29, 10, 25, 22, 20, 30, 45],
+        }]
+    },
+
+    // Configuration options go here
+    options: {
+        legendCallback: function(chart) {
+            // Return the HTML string here.
+            var text = [];
+            text.push('<ul class="list-inline">');
+            for (var i = 0; i < chart.data.datasets.length; i++) {
+                text.push('<li class="text-white list-inline-item btn" style="background: '+ chart.data.datasets[i].backgroundColor +' ">');
+                text.push( chart.data.datasets[i].label );
+                text.push('</li>');
+            }
+            text.push('</ul>');
+            return text.join("");
+
+        },
+        legend: {
+            display: false,
+            position: "left",
+            reverse: false,
+            //onClick: changeFontColor,
+            labels: {
+                boxWidth: 5,
+                fontSize: 15,
+                fontStyle: "bold",
+                fontColor: "#000",
+                //fontFamily: "New Times Roman",
+                padding: 20,
+                usePointStyle: true,
+            }
         }
-      }
-    };
+    }
+});
 
-    // init render block
-    const myChart = new Chart(
-      document.getElementById('myChart'),
-      config
-    );
+function changeFontColor() {
+    chart.options.legend.labels.fontColor = 'red';
+};
+
+document.getElementById("chartjs-legend").innerHTML = chart.generateLegend();
 
 
 function GetMultipleResultSetsForChart(
