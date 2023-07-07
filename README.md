@@ -1,3 +1,17 @@
+function GetMultipleResultSetsForChart(
+  legalEntity: string,
+  capitalComponent: string,
+  projectionPoint: string,
+  rrpSession: string,
+  spot: boolean = false
+): RrpResultSetModel[][] {
+  const filteredResultSets: RrpResultSetModel[][] = [];
+  filteredResultSets.push(GetResultSetsForChart(legalEntity, capitalComponent, projectionPoint, rrpSession, spot));
+  filteredResultSets.push(GetResultSetsForChart(legalEntity, capitalComponent, projectionPoint, rrpSession + "-2", spot));
+  return filteredResultSets;
+}
+
+
 interface RRPResultSet {
   ValuationType: string;
   UnitIdentifier: string;
