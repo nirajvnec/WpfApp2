@@ -1,3 +1,10 @@
+if (this.filteredData && this.filteredData.unitIdentifiers) {
+  this.legalEntities = this.filteredData.unitIdentifiers
+    .filter(this.distinct)
+    .sort();
+}
+
+
 var ctx = document.getElementById('myChart').getContext('2d');
 var chart = new Chart(ctx, {
     // The type of chart we want to create
