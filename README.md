@@ -1,3 +1,15 @@
+const array: string[] = ['foo', 'bar', '', 'baz', null];
+
+const hasNullOrEmpty = array.some(item => item === null || item === '');
+
+if (hasNullOrEmpty) {
+  console.log("The array contains null or empty string values.");
+} else {
+  console.log("The array does not contain null or empty string values.");
+}
+
+
+
 if (this.filteredData && this.filteredData.unitIdentifiers) {
   this.legalEntities = this.filteredData.unitIdentifiers
     .filter(this.distinct)
