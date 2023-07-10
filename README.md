@@ -1,3 +1,31 @@
+const data = [
+  { name: 'John Doe', age: 25, city: 'New York' },
+  { name: 'Jane Smith', age: 30, city: 'London' },
+  // Add more objects as needed
+];
+
+const csvData = convertToCSV(data);
+const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8' });
+saveAs(blob, 'data.csv');
+
+
+
+
+function convertToCSV(obj) {
+  const csv = [];
+  const keys = Object.keys(obj[0]);
+
+  // Add the column headers
+  csv.push(keys.join(','));
+
+  // Add the data rows
+  for (const row of obj) {
+    const values = keys.map(key => row[key]);
+    csv.push(values.join(','));
+  }
+
+  return csv.join('\n');
+}
 
 
 npm install exceljs
