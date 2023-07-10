@@ -1,3 +1,11 @@
+if (resultSet.some(x => x.UnitIdentifier === le && x.ProjectionPoint === proj && x.CapitalComponent === cc)) {
+  const result = resultSet.filter(x => x.UnitIdentifier === le && x.ProjectionPoint === proj && x.CapitalComponent === cc);
+  ds.data.push(result.reduce((sum, x) => sum + parseInt(x.ResultValue), 0));
+}
+
+
+
+
 const array: string[] = ['foo', 'bar', '', 'baz', null];
 
 const hasNullOrEmpty = array.some(item => item === null || item === '');
