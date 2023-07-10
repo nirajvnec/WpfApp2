@@ -1,3 +1,44 @@
+using OfficeOpenXml;
+using System;
+using System.IO;
+using System.Reflection;
+
+public class MyData
+{
+    public string Name { get; set; }
+    public int Age { get; set; }
+}
+
+public static void WriteColumnNames<T>(ExcelWorksheet worksheet) where T : class
+{
+    Type type = typeof(T);
+    PropertyInfo[] properties = type.GetProperties();
+
+    int column = 1;
+    foreach (PropertyInfo property in properties)
+    {
+        string columnName = property.Name;
+        worksheet.Cells[1, column].Value = columnName;
+        column++;
+    }
+}
+
+public static void Main()
+{
+    using (ExcelPackage excelPackage = new ExcelPackage())
+    {
+        ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Sheet1");
+
+        WriteColumnNames<MyData>(worksheet);
+
+        FileInfo excelFile = new FileInfo("output.xlsx");
+        excelPackage.SaveAs(excelFile);
+    }
+}
+
+
+
+
 if (resultSet.some(x => x.UnitIdentifier === le && x.ProjectionPoint === proj && x.CapitalComponent === cc)) {
   const result = resultSet.filter(x => x.UnitIdentifier === le && x.ProjectionPoint === proj && x.CapitalComponent === cc);
   ds.data.push(result.reduce((sum, x) => sum + parseInt(x.ResultValue), 0));
