@@ -2,6 +2,60 @@ using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
+
+public static class ExcelUtility
+{
+    public static void WriteColumnNames<T>(this ExcelWorksheet worksheet) where T : class
+    {
+        Type type = typeof(T);
+        PropertyInfo[] properties = type.GetProperties();
+
+        int column = 1;
+        foreach (PropertyInfo property in properties)
+        {
+            string columnName = property.Name;
+            worksheet.Cells[1, column].Value = columnName;
+            column++;
+        }
+    }
+
+    public static void ExportToExcel<T>(this ExcelPackage excelPackage, string sheetName, IEnumerable<IEnumerable<T>> data) where T : class
+    {
+        ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add(sheetName);
+
+        int row = 2;
+        foreach (var rowList in data)
+        {
+            worksheet.WriteColumnNames<T>();
+
+            foreach (var item in rowList)
+            {
+                PropertyInfo[] properties = typeof(T).GetProperties();
+
+                int column = 1;
+                foreach (PropertyInfo property in properties)
+                {
+                    var value = property.GetValue(item);
+                    worksheet.Cells[row, column].Value = value;
+                    column++;
+                }
+
+                row++;
+            }
+        }
+    }
+}
+
+
+
+
+
+using OfficeOpenXml;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 
 public static class ExcelUtility
