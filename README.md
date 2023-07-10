@@ -1,3 +1,20 @@
+const projectionPoints = resultSets.flatMap((x) => x)
+  .map((x) => x.ProjectionPoint)
+  .filter((value, index, self) => self.indexOf(value) === index)
+  .sort();
+
+const legalEntities = resultSets.flatMap((x) => x)
+  .map((x) => x.UnitIdentifier)
+  .filter((value, index, self) => self.indexOf(value) === index)
+  .sort();
+
+const capitalComponents = resultSets.flatMap((x) => x)
+  .map((x) => x.CapitalComponent1)
+  .filter((value, index, self) => self.indexOf(value) === index)
+  .sort();
+
+
+
 interface MyObject {
   id: number;
   name: string;
