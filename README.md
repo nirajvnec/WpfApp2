@@ -1,3 +1,28 @@
+interface Employee {
+  id: number;
+  name: string;
+}
+
+const lstEmp1: Employee[] = [
+  { id: 1, name: 'Employee 1A' },
+  { id: 2, name: 'Employee 1B' },
+  { id: 3, name: 'Employee 1C' },
+];
+
+const lstEmp2: Employee[] = [
+  { id: 4, name: 'Employee 2A' },
+  { id: 5, name: 'Employee 2B' },
+  { id: 6, name: 'Employee 2C' },
+];
+
+const listOfLists: Employee[][] = [];
+
+listOfLists.push(lstEmp1);
+listOfLists.push(lstEmp2);
+
+console.log(listOfLists);
+
+
 interface MyObject {
   id: number;
   name: string;
