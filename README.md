@@ -1,3 +1,47 @@
+import * as ExcelJS from 'exceljs';
+
+class ExcelUtility {
+  public static writeColumnNames<T>(worksheet: ExcelJS.Worksheet): void {
+    const propertyNames = Object.keys(new T());
+
+    let column = 1;
+    for (const propertyName of propertyNames) {
+      worksheet.getCell(1, column).value = propertyName;
+      column++;
+    }
+  }
+
+  public static exportToExcel<T>(
+    data: T[][],
+    sheetName: string,
+    filePath: string
+  ): Promise<void> {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet(sheetName);
+
+    let row = 2;
+    for (const rowList of data) {
+      ExcelUtility.writeColumnNames<T>(worksheet);
+
+      let column = 1;
+      for (const item of rowList) {
+        const propertyNames = Object.keys(item);
+
+        for (const propertyName of propertyNames) {
+          worksheet.getCell(row, column).value = item[propertyName];
+          column++;
+        }
+      }
+
+      row++;
+    }
+
+    return workbook.xlsx.writeFile(filePath);
+  }
+}
+
+
+
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
