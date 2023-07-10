@@ -1,3 +1,35 @@
+interface Object1 {
+  id: number;
+  name: string;
+}
+
+interface Object2 {
+  id: number;
+  value: string;
+}
+
+const array1: Object1[] = [
+  { id: 1, name: 'Object 1A' },
+  { id: 2, name: 'Object 1B' },
+  { id: 3, name: 'Object 1C' },
+];
+
+const array2: Object2[] = [
+  { id: 1, value: 'Value 1A' },
+  { id: 2, value: 'Value 1B' },
+  { id: 3, value: 'Value 1C' },
+];
+
+const combinedArray: (Object1 & Object2)[][] = array1.map((item1) =>
+  array2
+    .filter((item2) => item2.id === item1.id)
+    .map((item2) => ({ ...item1, ...item2 }))
+);
+
+console.log(combinedArray);
+
+
+
 const data = [
   { name: 'John Doe', age: 25, city: 'New York' },
   { name: 'Jane Smith', age: 30, city: 'London' },
