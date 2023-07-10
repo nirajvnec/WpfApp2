@@ -1,3 +1,20 @@
+using (ExcelPackage excelPackage = new ExcelPackage())
+{
+    List<MyData> dataList = new List<MyData>
+    {
+        new MyData { Name = "John Doe", Age = 25 },
+        new MyData { Name = "Jane Smith", Age = 30 },
+        // Add more data as needed
+    };
+
+    excelPackage.ExportToExcel("Sheet1", dataList);
+
+    FileInfo excelFile = new FileInfo("output.xlsx");
+    excelPackage.SaveAs(excelFile);
+}
+
+
+
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
