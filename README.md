@@ -1,3 +1,27 @@
+interface MyObject {
+  id: number;
+  name: string;
+}
+
+const array: MyObject[] = [
+  { id: 1, name: 'Object 1' },
+  { id: 2, name: 'Object 2' },
+  { id: 3, name: 'Object 3' },
+];
+
+function checkPropertiesMatch(array: MyObject[], prop1: number, prop2: string): boolean {
+  for (const item of array) {
+    if (item.id === prop1 && item.name === prop2) {
+      return true;
+    }
+  }
+  return false;
+}
+
+console.log(checkPropertiesMatch(array, 2, 'Object 2'));  // true
+console.log(checkPropertiesMatch(array, 4, 'Object 4'));  // false
+
+
 interface Employee {
   id: number;
   name: string;
