@@ -1,3 +1,30 @@
+interface MyObject {
+  id: number;
+  name: string;
+}
+
+const array1: MyObject[] = [
+  { id: 1, name: 'Object 1A' },
+  { id: 2, name: 'Object 1B' },
+  { id: 3, name: 'Object 1C' },
+];
+
+const array2: MyObject[] = [
+  { id: 1, name: 'Object 2A' },
+  { id: 2, name: 'Object 2B' },
+  { id: 3, name: 'Object 2C' },
+];
+
+const combinedArray: MyObject[] = array1.map((item1, index) => ({
+  ...item1,
+  ...array2[index],
+}));
+
+console.log(combinedArray);
+
+
+
+
 const projectionPoints = resultSets.flatMap((x) => x)
   .map((x) => x.ProjectionPoint)
   .filter((value, index, self) => self.indexOf(value) === index)
