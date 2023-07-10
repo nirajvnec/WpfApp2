@@ -1,3 +1,13 @@
+using (ExcelPackage excelPackage = new ExcelPackage())
+{
+    excelPackage.ExportToExcel<MyData>("Sheet1", dataList);
+
+    FileInfo excelFile = new FileInfo("output.xlsx");
+    excelPackage.SaveAs(excelFile);
+}
+
+
+
 using OfficeOpenXml;
 using System;
 using System.IO;
