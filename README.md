@@ -1,3 +1,19 @@
+function hasNullOrUndefinedOrEmptyProperties(obj: any): boolean {
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      const value = obj[key];
+      
+      if (value === null || value === undefined || value === '') {
+        return true;
+      }
+    }
+  }
+  
+  return false;
+}
+
+
+
 
 public static void ExportToExcel<T>(this ExcelPackage excelPackage, string sheetName, IEnumerable<T> data) where T : class
 {
