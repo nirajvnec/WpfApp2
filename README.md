@@ -3,6 +3,25 @@ const chartData = {
   datasets: [] as ChartDataSet[]
 };
 
+const sourceData = this.data[1]; // Assuming this.data[1] has the desired data
+
+// Assuming you want to create 140 ChartDataSet objects
+const numOfDatasets = 140;
+
+for (let i = 0; i < numOfDatasets; i++) {
+  const chartDataSet = new ChartDataSet();
+  Object.assign(chartDataSet, sourceData);
+  chartData.datasets.push(chartDataSet);
+}
+
+console.log(chartData);
+
+
+const chartData = {
+  labels: [],
+  datasets: [] as ChartDataSet[]
+};
+
 // Assuming this.data is an array and has at least two elements
 if (this.data.length > 1) {
   const sourceData = this.data[1]; // Assuming this.data[1] has the desired data
