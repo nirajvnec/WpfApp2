@@ -1,3 +1,17 @@
+const sourceData = this.data[1]; // Assuming this.data is an array
+const chartDataSet = new ChartDataSet();
+
+// Using object spread syntax
+const copiedData = { ...sourceData };
+Object.assign(chartDataSet, copiedData);
+
+// Using Object.assign()
+Object.assign(chartDataSet, sourceData);
+
+console.log(chartDataSet);
+
+
+
 function hasNullOrUndefinedOrEmptyProperties(obj: any): boolean {
   for (const key in obj) {
     if (obj.hasOwnProperty(key)) {
