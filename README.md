@@ -1,4 +1,20 @@
 const chartData = {
+  labels: data1.labels,
+  datasets: [] as ChartDataSet[]
+};
+
+// Assuming data1.datasets is an array
+for (const datasetData of data1.datasets) {
+  const chartDataSet = new ChartDataSet();
+  Object.assign(chartDataSet, datasetData);
+  chartData.datasets.push(chartDataSet);
+}
+
+console.log(chartData);
+
+
+
+const chartData = {
   datasets: [] as ChartDataSet[]
 };
 
