@@ -1,3 +1,22 @@
+const chartData = {
+  datasets: [] as ChartDataSet[]
+};
+
+const sourceData = this.data[1]; // Assuming this.data is an array
+
+// Create a new instance of ChartDataSet
+const chartDataSet = new ChartDataSet();
+
+// Copy the properties from sourceData to chartDataSet
+Object.assign(chartDataSet, sourceData);
+
+// Add chartDataSet to the datasets array
+chartData.datasets.push(chartDataSet);
+
+console.log(chartData);
+
+
+
 const sourceData = this.data[1]; // Assuming this.data is an array
 const chartDataSet = new ChartDataSet();
 
