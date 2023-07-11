@@ -1,3 +1,29 @@
+
+public static void ExportToExcel<T>(this ExcelPackage excelPackage, string sheetName, IEnumerable<T> data) where T : class
+{
+    ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add(sheetName);
+
+    int row = 2;
+    worksheet.WriteColumnNames<T>();
+
+    foreach (var item in data)
+    {
+        PropertyInfo[] properties = typeof(T).GetProperties();
+
+        int column = 1;
+        foreach (PropertyInfo property in properties)
+        {
+            var value = property.GetValue(item);
+            worksheet.Cells[row, column].Value = value;
+            column++;
+        }
+
+        row++;
+    }
+}
+
+
+
 interface MyObject {
   id: number;
   name: string;
