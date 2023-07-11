@@ -1,4 +1,23 @@
 const chartData = {
+  labels: [],
+  datasets: [] as ChartDataSet[]
+};
+
+// Assuming this.data is an array and has at least two elements
+if (this.data.length > 1) {
+  const sourceData = this.data[1]; // Assuming this.data[1] has the desired data
+
+  const chartDataSet = new ChartDataSet();
+  Object.assign(chartDataSet, sourceData);
+
+  chartData.datasets.push(chartDataSet);
+}
+
+console.log(chartData);
+
+
+
+const chartData = {
   labels: data1.labels,
   datasets: [] as ChartDataSet[]
 };
