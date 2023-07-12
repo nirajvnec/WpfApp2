@@ -1,3 +1,35 @@
+
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+
+@Component({
+  selector: 'app-my-chart',
+  template: '<canvas #myChartCanvas></canvas>',
+})
+export class MyChartComponent implements AfterViewInit {
+  @ViewChild('myChartCanvas', { static: true })
+  private myChartCanvas!: ElementRef<HTMLCanvasElement>;
+
+  private myChart: Chart | null = null;
+
+  ngAfterViewInit() {
+    const ctx = this.myChartCanvas.nativeElement.getContext('2d');
+
+    this.myChart = new Chart(ctx, {
+      type: 'bar',
+      data: this.chartData,
+      options: {
+        onClick: (event, elements) => {
+          // Your custom logic here
+          console.log('Bar chart clicked!');
+        },
+      },
+    });
+  }
+}
+
+
+
+
 const chartData = {
   labels: [],
   datasets: [] as ChartDataSet[]
